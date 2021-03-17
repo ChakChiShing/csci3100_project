@@ -9,11 +9,12 @@
 
 'use strict';
 
-const React = require('react');
-const {NativeModules, Picker, View} = require('react-native');
-const BatchedBridge = require('react-native/Libraries/BatchedBridge/BatchedBridge');
+const BatchedBridge = require('BatchedBridge');
+const React = require('React');
+const RecordingModule = require('NativeModules').PickerAndroidRecordingModule;
+const Picker = require('Picker');
+const View = require('View');
 
-const {Recording: RecordingModule} = NativeModules;
 const Item = Picker.Item;
 
 let appInstance;

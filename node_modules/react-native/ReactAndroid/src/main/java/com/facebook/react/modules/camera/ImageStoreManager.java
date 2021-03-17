@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,27 +7,29 @@
 
 package com.facebook.react.modules.camera;
 
-import android.content.ContentResolver;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.util.Base64;
-import android.util.Base64OutputStream;
-import com.facebook.fbreact.specs.NativeImageStoreSpec;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.GuardedAsyncTask;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.module.annotations.ReactModule;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-@ReactModule(name = ImageStoreManager.NAME)
-public class ImageStoreManager extends NativeImageStoreSpec {
+import android.content.ContentResolver;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Base64;
+import android.util.Base64OutputStream;
 
-  public static final String NAME = "ImageStoreManager";
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.GuardedAsyncTask;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.module.annotations.ReactModule;
+
+@ReactModule(name = "ImageStoreManager")
+public class ImageStoreManager extends ReactContextBaseJavaModule {
+
   private static final int BUFFER_SIZE = 8192;
 
   public ImageStoreManager(ReactApplicationContext reactContext) {
@@ -36,7 +38,7 @@ public class ImageStoreManager extends NativeImageStoreSpec {
 
   @Override
   public String getName() {
-    return NAME;
+    return "ImageStoreManager";
   }
 
   /**
@@ -46,7 +48,7 @@ public class ImageStoreManager extends NativeImageStoreSpec {
    * @param success callback to be invoked with the base64 string as the only argument
    * @param error callback to be invoked on error (e.g. file not found, not readable etc.)
    */
-  @Override
+  @ReactMethod
   public void getBase64ForTag(String uri, Callback success, Callback error) {
     new GetBase64Task(getReactApplicationContext(), uri, success, error)
         .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
@@ -57,7 +59,11 @@ public class ImageStoreManager extends NativeImageStoreSpec {
     private final Callback mSuccess;
     private final Callback mError;
 
-    private GetBase64Task(ReactContext reactContext, String uri, Callback success, Callback error) {
+    private GetBase64Task(
+        ReactContext reactContext,
+        String uri,
+        Callback success,
+        Callback error) {
       super(reactContext);
       mUri = uri;
       mSuccess = success;
@@ -104,21 +110,5 @@ public class ImageStoreManager extends NativeImageStoreSpec {
     } catch (IOException e) {
       // shhh
     }
-  }
-
-  @Override
-  public void hasImageForTag(String uri, Callback callback) {
-    // iOS only
-  }
-
-  @Override
-  public void removeImageForTag(String uri) {
-    // iOS only
-  }
-
-  @Override
-  public void addImageFromBase64(
-      String base64ImageData, Callback successCallback, Callback errorCallback) {
-    // iOS only
   }
 }

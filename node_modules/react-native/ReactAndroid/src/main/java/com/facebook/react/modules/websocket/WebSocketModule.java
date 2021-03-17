@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,11 +7,12 @@
 
 package com.facebook.react.modules.websocket;
 
-import androidx.annotation.Nullable;
 import com.facebook.common.logging.FLog;
-import com.facebook.fbreact.specs.NativeWebSocketModuleSpec;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import javax.annotation.Nullable;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -37,11 +39,8 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 
 @ReactModule(name = WebSocketModule.NAME, hasConstants = false)
-public final class WebSocketModule extends NativeWebSocketModuleSpec {
-  public static final String TAG = WebSocketModule.class.getSimpleName();
-
-  public static final String NAME = "WebSocketModule";
-
+public final class WebSocketModule extends ReactContextBaseJavaModule {
+  public static final String NAME="WebSocketModule";
   public interface ContentHandler {
     void onMessage(String text, WritableMap params);
 
@@ -51,21 +50,19 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
   private final Map<Integer, WebSocket> mWebSocketConnections = new ConcurrentHashMap<>();
   private final Map<Integer, ContentHandler> mContentHandlers = new ConcurrentHashMap<>();
 
+  private ReactContext mReactContext;
   private ForwardingCookieHandler mCookieHandler;
 
   public WebSocketModule(ReactApplicationContext context) {
     super(context);
+    mReactContext = context;
     mCookieHandler = new ForwardingCookieHandler(context);
   }
 
   private void sendEvent(String eventName, WritableMap params) {
-    ReactApplicationContext reactApplicationContext = getReactApplicationContextIfActiveOrWarn();
-
-    if (reactApplicationContext != null) {
-      reactApplicationContext
-          .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-          .emit(eventName, params);
-    }
+    mReactContext
+      .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+      .emit(eventName, params);
   }
 
   @Override
@@ -81,19 +78,17 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
     }
   }
 
-  @Override
+  @ReactMethod
   public void connect(
-      final String url,
-      @Nullable final ReadableArray protocols,
-      @Nullable final ReadableMap options,
-      final double socketID) {
-    final int id = (int) socketID;
-    OkHttpClient client =
-        new OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(0, TimeUnit.MINUTES) // Disable timeouts for read
-            .build();
+    final String url,
+    @Nullable final ReadableArray protocols,
+    @Nullable final ReadableMap options,
+    final int id) {
+    OkHttpClient client = new OkHttpClient.Builder()
+      .connectTimeout(10, TimeUnit.SECONDS)
+      .writeTimeout(10, TimeUnit.SECONDS)
+      .readTimeout(0, TimeUnit.MINUTES) // Disable timeouts for read
+      .build();
 
     Request.Builder builder = new Request.Builder().tag(id).url(url);
 
@@ -102,29 +97,26 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
       builder.addHeader("Cookie", cookie);
     }
 
-    boolean hasOriginHeader = false;
-
-    if (options != null
-        && options.hasKey("headers")
-        && options.getType("headers").equals(ReadableType.Map)) {
+    if (options != null && options.hasKey("headers") && options.getType("headers").equals(ReadableType.Map)) {
 
       ReadableMap headers = options.getMap("headers");
       ReadableMapKeySetIterator iterator = headers.keySetIterator();
 
+      if (!headers.hasKey("origin")) {
+        builder.addHeader("origin", getDefaultOrigin(url));
+      }
+
       while (iterator.hasNextKey()) {
         String key = iterator.nextKey();
         if (ReadableType.String.equals(headers.getType(key))) {
-          if (key.equalsIgnoreCase("origin")) {
-            hasOriginHeader = true;
-          }
           builder.addHeader(key, headers.getString(key));
         } else {
-          FLog.w(ReactConstants.TAG, "Ignoring: requested " + key + ", value not a string");
+          FLog.w(
+            ReactConstants.TAG,
+            "Ignoring: requested " + key + ", value not a string");
         }
       }
-    }
-
-    if (!hasOriginHeader) {
+    } else {
       builder.addHeader("origin", getDefaultOrigin(url));
     }
 
@@ -152,7 +144,6 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
             mWebSocketConnections.put(id, webSocket);
             WritableMap params = Arguments.createMap();
             params.putInt("id", id);
-            params.putString("protocol", response.header("Sec-WebSocket-Protocol", ""));
             sendEvent("websocketOpen", params);
           }
 
@@ -213,9 +204,8 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
     client.dispatcher().executorService().shutdown();
   }
 
-  @Override
-  public void close(double code, String reason, double socketID) {
-    int id = (int) socketID;
+  @ReactMethod
+  public void close(int code, String reason, int id) {
     WebSocket client = mWebSocketConnections.get(id);
     if (client == null) {
       // WebSocket is already closed
@@ -223,17 +213,19 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
       return;
     }
     try {
-      client.close((int) code, reason);
+      client.close(code, reason);
       mWebSocketConnections.remove(id);
       mContentHandlers.remove(id);
     } catch (Exception e) {
-      FLog.e(ReactConstants.TAG, "Could not close WebSocket connection for id " + id, e);
+      FLog.e(
+        ReactConstants.TAG,
+        "Could not close WebSocket connection for id " + id,
+        e);
     }
   }
 
-  @Override
-  public void send(String message, double socketID) {
-    final int id = (int) socketID;
+  @ReactMethod
+  public void send(String message, int id) {
     WebSocket client = mWebSocketConnections.get(id);
     if (client == null) {
       // This is a programmer error -- display development warning
@@ -257,9 +249,8 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
     }
   }
 
-  @Override
-  public void sendBinary(String base64String, double socketID) {
-    final int id = (int) socketID;
+  @ReactMethod
+  public void sendBinary(String base64String, int id) {
     WebSocket client = mWebSocketConnections.get(id);
     if (client == null) {
       // This is a programmer error -- display development warning
@@ -307,9 +298,8 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
     }
   }
 
-  @Override
-  public void ping(double socketID) {
-    final int id = (int) socketID;
+  @ReactMethod
+  public void ping(int id) {
     WebSocket client = mWebSocketConnections.get(id);
     if (client == null) {
       // This is a programmer error -- display development warning
@@ -352,24 +342,20 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
       String scheme = "";
 
       URI requestURI = new URI(uri);
-      switch (requestURI.getScheme()) {
-        case "wss":
-          scheme += "https";
-          break;
-        case "ws":
-          scheme += "http";
-          break;
-        case "http":
-        case "https":
-          scheme += requestURI.getScheme();
-          break;
-        default:
-          break;
+      if (requestURI.getScheme().equals("wss")) {
+        scheme += "https";
+      } else if (requestURI.getScheme().equals("ws")) {
+        scheme += "http";
+      } else if (requestURI.getScheme().equals("http") || requestURI.getScheme().equals("https")) {
+        scheme += requestURI.getScheme();
       }
 
       if (requestURI.getPort() != -1) {
-        defaultOrigin =
-            String.format("%s://%s:%s", scheme, requestURI.getHost(), requestURI.getPort());
+        defaultOrigin = String.format(
+          "%s://%s:%s",
+          scheme,
+          requestURI.getHost(),
+          requestURI.getPort());
       } else {
         defaultOrigin = String.format("%s://%s", scheme, requestURI.getHost());
       }
@@ -401,10 +387,4 @@ public final class WebSocketModule extends NativeWebSocketModuleSpec {
       throw new IllegalArgumentException("Unable to get cookie from " + uri);
     }
   }
-
-  @Override
-  public void addListener(String eventName) {}
-
-  @Override
-  public void removeListeners(double count) {}
 }

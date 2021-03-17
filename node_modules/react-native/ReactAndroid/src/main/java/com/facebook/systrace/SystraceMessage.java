@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,7 +7,9 @@
 
 package com.facebook.systrace;
 
-/** Systrace stub. */
+/**
+ * Systrace stub.
+ */
 public final class SystraceMessage {
 
   private static final Builder NOOP_BUILDER = new NoopBuilder();
@@ -20,7 +22,7 @@ public final class SystraceMessage {
     return NOOP_BUILDER;
   }
 
-  public abstract static class Builder {
+  public static abstract class Builder {
 
     public abstract void flush();
 
@@ -39,7 +41,8 @@ public final class SystraceMessage {
 
   private static class NoopBuilder extends Builder {
     @Override
-    public void flush() {}
+    public void flush() {
+    }
 
     @Override
     public Builder arg(String key, Object value) {

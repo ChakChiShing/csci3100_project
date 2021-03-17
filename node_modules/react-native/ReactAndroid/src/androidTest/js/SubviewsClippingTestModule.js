@@ -9,14 +9,13 @@
 
 'use strict';
 
-const React = require('react');
-const {
-  ScrollView,
-  StyleSheet,
-  View,
-  requireNativeComponent,
-} = require('react-native');
-const BatchedBridge = require('react-native/Libraries/BatchedBridge/BatchedBridge');
+const BatchedBridge = require('BatchedBridge');
+const React = require('React');
+const ScrollView = require('ScrollView');
+const StyleSheet = require('StyleSheet');
+const View = require('View');
+
+const requireNativeComponent = require('requireNativeComponent');
 
 const ClippableView = requireNativeComponent('ClippableView');
 

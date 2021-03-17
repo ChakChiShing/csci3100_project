@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -49,14 +49,9 @@ namespace better {
 
 /*
  * Enables using Folly containers instead of standard ones (such as map, vector,
- * small_vector, optional and etc.)
- * Custom containers are only enabled in release mode. Using custom stuff
- * complicates debugging process because it breaks embedded into IDE
- * introspections mechanisms.
+ * string, optional and etc.)
  */
-#ifndef DEBUG
 #define BETTER_USE_FOLLY_CONTAINERS
-#endif
 
 } // namespace better
 } // namespace facebook

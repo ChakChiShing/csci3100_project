@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -9,10 +9,8 @@
 
 #include <memory>
 
-#include <react/core/ReactPrimitives.h>
 #include <react/imagemanager/ImageRequest.h>
 #include <react/imagemanager/primitives.h>
-#include <react/utils/ContextContainer.h>
 
 namespace facebook {
 namespace react {
@@ -26,11 +24,10 @@ using SharedImageManager = std::shared_ptr<ImageManager>;
  */
 class ImageManager {
  public:
-  ImageManager(ContextContainer::Shared const &contextContainer);
+  ImageManager(void *platformSpecificCounterpart);
   ~ImageManager();
 
-  ImageRequest requestImage(const ImageSource &imageSource, SurfaceId surfaceId)
-      const;
+  ImageRequest requestImage(const ImageSource &imageSource) const;
 
  private:
   void *self_;

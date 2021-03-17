@@ -9,11 +9,11 @@
 
 'use strict';
 
-const React = require('react');
-const {NativeModules, Share, View} = require('react-native');
-const BatchedBridge = require('react-native/Libraries/BatchedBridge/BatchedBridge');
-
-const {ShareRecordingModule: RecordingModule} = NativeModules;
+const BatchedBridge = require('BatchedBridge');
+const React = require('React');
+const RecordingModule = require('NativeModules').ShareRecordingModule;
+const Share = require('Share');
+const View = require('View');
 
 class ShareTestApp extends React.Component {
   render() {

@@ -1,15 +1,15 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-#import <React/RCTMultilineTextInputView.h>
+#import "RCTMultilineTextInputView.h"
 
 #import <React/RCTUtils.h>
 
-#import <React/RCTUITextView.h>
+#import "RCTUITextView.h"
 
 @implementation RCTMultilineTextInputView
 {
@@ -24,6 +24,14 @@
 
     _backedTextInputView = [[RCTUITextView alloc] initWithFrame:self.bounds];
     _backedTextInputView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _backedTextInputView.backgroundColor = [UIColor clearColor];
+    _backedTextInputView.textColor = [UIColor blackColor];
+    // This line actually removes 5pt (default value) left and right padding in UITextView.
+    _backedTextInputView.textContainer.lineFragmentPadding = 0;
+#if !TARGET_OS_TV
+    _backedTextInputView.scrollsToTop = NO;
+#endif
+    _backedTextInputView.scrollEnabled = YES;
     _backedTextInputView.textInputDelegate = self;
 
     [self addSubview:_backedTextInputView];

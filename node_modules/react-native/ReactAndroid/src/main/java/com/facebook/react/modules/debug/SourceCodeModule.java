@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,23 +7,28 @@
 
 package com.facebook.react.modules.debug;
 
-import com.facebook.fbreact.specs.NativeSourceCodeSpec;
-import com.facebook.infer.annotation.Assertions;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.module.annotations.ReactModule;
+import javax.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.bridge.BaseJavaModule;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.module.annotations.ReactModule;
 
 /**
  * Module that exposes the URL to the source code map (used for exception stack trace parsing) to JS
  */
 @ReactModule(name = SourceCodeModule.NAME)
-public class SourceCodeModule extends NativeSourceCodeSpec {
+public class SourceCodeModule extends BaseJavaModule {
 
   public static final String NAME = "SourceCode";
 
-  public SourceCodeModule(ReactApplicationContext reactContext) {
-    super(reactContext);
+  private final ReactContext mReactContext;
+
+  public SourceCodeModule(ReactContext reactContext) {
+    mReactContext = reactContext;
   }
 
   @Override
@@ -32,13 +37,13 @@ public class SourceCodeModule extends NativeSourceCodeSpec {
   }
 
   @Override
-  protected Map<String, Object> getTypedExportedConstants() {
+  public @Nullable Map<String, Object> getConstants() {
     HashMap<String, Object> constants = new HashMap<>();
 
     String sourceURL =
-        Assertions.assertNotNull(
-            getReactApplicationContext().getSourceURL(),
-            "No source URL loaded, have you initialised the instance?");
+      Assertions.assertNotNull(
+        mReactContext.getCatalystInstance().getSourceURL(),
+        "No source URL loaded, have you initialised the instance?");
 
     constants.put("scriptURL", sourceURL);
     return constants;

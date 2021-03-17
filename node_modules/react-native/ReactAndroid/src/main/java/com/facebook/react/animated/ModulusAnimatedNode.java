@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -8,6 +8,7 @@
 package com.facebook.react.animated;
 
 import com.facebook.react.bridge.JSApplicationCausedNativeException;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 
 /*package*/ class ModulusAnimatedNode extends ValueAnimatedNode {
@@ -17,7 +18,8 @@ import com.facebook.react.bridge.ReadableMap;
   private final double mModulus;
 
   public ModulusAnimatedNode(
-      ReadableMap config, NativeAnimatedNodesManager nativeAnimatedNodesManager) {
+      ReadableMap config,
+      NativeAnimatedNodesManager nativeAnimatedNodesManager) {
     mNativeAnimatedNodesManager = nativeAnimatedNodesManager;
     mInputNode = config.getInt("input");
     mModulus = config.getDouble("modulus");
@@ -27,11 +29,10 @@ import com.facebook.react.bridge.ReadableMap;
   public void update() {
     AnimatedNode animatedNode = mNativeAnimatedNodesManager.getNodeById(mInputNode);
     if (animatedNode != null && animatedNode instanceof ValueAnimatedNode) {
-      final double value = ((ValueAnimatedNode) animatedNode).getValue();
-      mValue = (value % mModulus + mModulus) % mModulus;
+      mValue = ((ValueAnimatedNode) animatedNode).getValue() % mModulus;
     } else {
-      throw new JSApplicationCausedNativeException(
-          "Illegal node ID set as an input for " + "Animated.modulus node");
+      throw new JSApplicationCausedNativeException("Illegal node ID set as an input for " +
+        "Animated.modulus node");
     }
   }
 }

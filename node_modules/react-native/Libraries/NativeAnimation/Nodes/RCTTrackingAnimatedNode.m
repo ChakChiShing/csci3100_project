@@ -1,13 +1,13 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-#import <React/RCTTrackingAnimatedNode.h>
-#import <React/RCTValueAnimatedNode.h>
-#import <React/RCTNativeAnimatedNodesManager.h>
+#import "RCTTrackingAnimatedNode.h"
+#import "RCTValueAnimatedNode.h"
+#import "RCTNativeAnimatedNodesManager.h"
 
 @implementation RCTTrackingAnimatedNode {
   NSNumber *_animationId;

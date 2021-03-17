@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,21 +7,22 @@
 
 #import <UIKit/UIKit.h>
 
-#import <RCTImageManagerProtocol.h>
+#import <react/imagemanager/ImageRequest.h>
+#import <react/imagemanager/primitives.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol RCTImageLoaderWithAttributionProtocol;
+@class RCTImageLoader;
 
 /**
  * iOS-specific ImageManager.
  */
-@interface RCTImageManager : NSObject <RCTImageManagerProtocol>
+@interface RCTImageManager : NSObject
 
-- (instancetype)initWithImageLoader:(id<RCTImageLoaderWithAttributionProtocol>)imageLoader;
+- (instancetype)initWithImageLoader:(RCTImageLoader *)imageLoader;
 
-- (facebook::react::ImageRequest)requestImage:(facebook::react::ImageSource)imageSource
-                                    surfaceId:(facebook::react::SurfaceId)surfaceId;
+- (facebook::react::ImageRequest)requestImage:
+    (const facebook::react::ImageSource &)imageSource;
 
 @end
 

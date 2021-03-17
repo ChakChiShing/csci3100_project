@@ -1,9 +1,7 @@
-/*
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+// Copyright (c) Facebook, Inc. and its affiliates.
+
+// This source code is licensed under the MIT license found in the
+// LICENSE file in the root directory of this source tree.
 
 #include "WritableNativeArray.h"
 
@@ -17,8 +15,7 @@ namespace react {
 WritableNativeArray::WritableNativeArray()
     : HybridBase(folly::dynamic::array()) {}
 
-local_ref<WritableNativeArray::jhybriddata> WritableNativeArray::initHybrid(
-    alias_ref<jclass>) {
+local_ref<WritableNativeArray::jhybriddata> WritableNativeArray::initHybrid(alias_ref<jclass>) {
   return makeCxxInstance();
 }
 
@@ -51,7 +48,7 @@ void WritableNativeArray::pushString(jstring value) {
   array_.push_back(wrap_alias(value)->toStdString());
 }
 
-void WritableNativeArray::pushNativeArray(WritableNativeArray *otherArray) {
+void WritableNativeArray::pushNativeArray(WritableNativeArray* otherArray) {
   if (otherArray == NULL) {
     pushNull();
     return;
@@ -60,7 +57,7 @@ void WritableNativeArray::pushNativeArray(WritableNativeArray *otherArray) {
   array_.push_back(otherArray->consume());
 }
 
-void WritableNativeArray::pushNativeMap(WritableNativeMap *map) {
+void WritableNativeArray::pushNativeMap(WritableNativeMap* map) {
   if (map == NULL) {
     pushNull();
     return;

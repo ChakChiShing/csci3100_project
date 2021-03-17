@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,10 +7,9 @@
 
 package com.facebook.react.packagerconnection;
 
-import androidx.annotation.Nullable;
+import javax.annotation.Nullable;
 
 public interface RequestHandler {
   void onRequest(@Nullable Object params, Responder responder);
-
   void onNotification(@Nullable Object params);
 }

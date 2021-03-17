@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,12 +7,14 @@
 
 package com.facebook.react.modules.core;
 
-import androidx.annotation.Nullable;
-import com.facebook.proguard.annotations.DoNotStrip;
+import javax.annotation.Nullable;
+
 import com.facebook.react.bridge.JavaScriptModule;
 
-/** Module that handles global application events. */
-@DoNotStrip
+/**
+ * Module that handles global application events.
+ */
 public interface RCTNativeAppEventEmitter extends JavaScriptModule {
   void emit(String eventName, @Nullable Object data);
 }
+

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,8 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import <React/RCTBackedTextInputViewProtocol.h>
-#import <React/RCTBackedTextInputDelegate.h>
+#import "RCTBackedTextInputViewProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,7 +26,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) UIColor *placeholderColor;
 @property (nonatomic, assign) UIEdgeInsets textContainerInset;
 @property (nonatomic, assign, getter=isEditable) BOOL editable;
-@property (nonatomic, getter=isScrollEnabled) BOOL scrollEnabled;
 
 @end
 

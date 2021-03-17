@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -9,11 +9,12 @@ package com.facebook.react.uimanager;
 
 import static com.facebook.systrace.Systrace.TRACE_TAG_REACT_JAVA_BRIDGE;
 
-import androidx.annotation.Nullable;
 import com.facebook.react.common.MapBuilder;
+import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.systrace.SystraceMessage;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * Helps generate constants map for {@link UIManagerModule} by collecting and merging constants from
@@ -27,14 +28,16 @@ import java.util.Map;
   /**
    * Generates a lazy discovery enabled version of {@link UIManagerModule} constants. It only
    * contains a list of view manager names, so that JS side is aware of the managers there are.
-   * Actual ViewManager instantiation happens when {@code
-   * UIManager.getViewManagerConfig('SpecificViewManager')} call happens. The View Manager is then
+   * Actual ViewManager instantiation happens when
+   * {@code UIManager.getViewManagerConfig('SpecificViewManager')} call happens. The View Manager is then
    * registered on the JS side with the help of {@code UIManagerModule.getConstantsForViewManager}.
    */
   /* package */ static Map<String, Object> createConstants(
       UIManagerModule.ViewManagerResolver resolver) {
     Map<String, Object> constants = UIManagerModuleConstants.getConstants();
-    constants.put("ViewManagerNames", resolver.getViewManagerNames());
+    if (!ReactFeatureFlags.lazilyLoadViewManagers) {
+      constants.put("ViewManagerNames", resolver.getViewManagerNames());
+    }
     constants.put("LazyViewManagersEnabled", true);
     return constants;
   }
@@ -46,19 +49,21 @@ import java.util.Map;
   }
 
   /**
-   * Generates map of constants that is then exposed by {@link UIManagerModule}. Provided list of
-   * {@param viewManagers} is then used to populate content of those predefined fields using {@link
-   * ViewManager#getExportedCustomBubblingEventTypeConstants} and {@link
-   * ViewManager#getExportedCustomDirectEventTypeConstants} respectively. Each view manager is in
-   * addition allowed to expose viewmanager-specific constants that are placed under the key that
-   * corresponds to the view manager's name (see {@link ViewManager#getName}). Constants are merged
-   * into the map of {@link UIManagerModule} base constants that is stored in {@link
-   * UIManagerModuleConstants}. TODO(6845124): Create a test for this
+   * Generates map of constants that is then exposed by {@link UIManagerModule}.
+   * Provided list of {@param viewManagers} is then used to populate content of
+   * those predefined fields using
+   * {@link ViewManager#getExportedCustomBubblingEventTypeConstants} and
+   * {@link ViewManager#getExportedCustomDirectEventTypeConstants} respectively. Each view manager
+   * is in addition allowed to expose viewmanager-specific constants that are placed under the key
+   * that corresponds to the view manager's name (see {@link ViewManager#getName}). Constants are
+   * merged into the map of {@link UIManagerModule} base constants that is stored in
+   * {@link UIManagerModuleConstants}.
+   * TODO(6845124): Create a test for this
    */
   /* package */ static Map<String, Object> createConstants(
-      List<ViewManager> viewManagers,
-      @Nullable Map<String, Object> allBubblingEventTypes,
-      @Nullable Map<String, Object> allDirectEventTypes) {
+        List<ViewManager> viewManagers,
+        @Nullable Map<String, Object> allBubblingEventTypes,
+        @Nullable Map<String, Object> allDirectEventTypes) {
     Map<String, Object> constants = UIManagerModuleConstants.getConstants();
 
     // Generic/default event types:
@@ -87,9 +92,12 @@ import java.util.Map;
           .flush();
 
       try {
-        Map viewManagerConstants =
-            createConstantsForViewManager(
-                viewManager, null, null, allBubblingEventTypes, allDirectEventTypes);
+        Map viewManagerConstants = createConstantsForViewManager(
+            viewManager,
+            null,
+            null,
+            allBubblingEventTypes,
+            allDirectEventTypes);
         if (!viewManagerConstants.isEmpty()) {
           constants.put(viewManagerName, viewManagerConstants);
         }
@@ -145,7 +153,9 @@ import java.util.Map;
     return viewManagerConstants;
   }
 
-  /** Merges {@param source} map into {@param dest} map recursively */
+  /**
+   * Merges {@param source} map into {@param dest} map recursively
+   */
   private static void recursiveMerge(@Nullable Map dest, @Nullable Map source) {
     if (dest == null || source == null || source.isEmpty()) {
       return;

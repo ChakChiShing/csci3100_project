@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -9,12 +9,14 @@
 
 #include <react/core/LayoutMetrics.h>
 
+#include "ScrollViewLocalData.h"
+
 namespace facebook {
 namespace react {
 
 const char ScrollViewComponentName[] = "ScrollView";
 
-void ScrollViewShadowNode::updateStateIfNeeded() {
+void ScrollViewShadowNode::updateLocalData() {
   ensureUnsealed();
 
   auto contentBoundingRect = Rect{};
@@ -22,26 +24,16 @@ void ScrollViewShadowNode::updateStateIfNeeded() {
     contentBoundingRect.unionInPlace(childNode->getLayoutMetrics().frame);
   }
 
-  auto state = getStateData();
-
-  if (state.contentBoundingRect != contentBoundingRect) {
-    state.contentBoundingRect = contentBoundingRect;
-    setStateData(std::move(state));
-  }
+  const auto &localData =
+      std::make_shared<const ScrollViewLocalData>(contentBoundingRect);
+  setLocalData(localData);
 }
 
 #pragma mark - LayoutableShadowNode
 
 void ScrollViewShadowNode::layout(LayoutContext layoutContext) {
   ConcreteViewShadowNode::layout(layoutContext);
-  updateStateIfNeeded();
-}
-
-Transform ScrollViewShadowNode::getTransform() const {
-  auto transform = ConcreteViewShadowNode::getTransform();
-  auto contentOffset = getStateData().contentOffset;
-  return transform *
-      Transform::Translate(-contentOffset.x, -contentOffset.y, 0);
+  updateLocalData();
 }
 
 } // namespace react

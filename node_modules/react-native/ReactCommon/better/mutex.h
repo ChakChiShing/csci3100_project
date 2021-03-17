@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -14,7 +14,11 @@
 namespace facebook {
 namespace better {
 
-using shared_mutex = folly::SharedMutex;
+template <typename T>
+using shared_lock = std::shared_lock<T>;
+
+template <typename T>
+using shared_mutex = folly::SharedMutex<T>;
 
 } // namespace better
 } // namespace facebook

@@ -9,53 +9,26 @@
 
 'use strict';
 
-const React = require('react');
-const {NativeModules, StyleSheet, View} = require('react-native');
-const BatchedBridge = require('react-native/Libraries/BatchedBridge/BatchedBridge');
-
-const {Recording} = NativeModules;
-
-let that;
+const React = require('React');
+const Recording = require('NativeModules').Recording;
+const StyleSheet = require('StyleSheet');
+const View = require('View');
 
 class CatalystRootViewTestApp extends React.Component {
-  state = {
-    height: 300,
-  };
-
-  componentDidMount() {
-    that = this;
-  }
-
   componentWillUnmount() {
     Recording.record('RootComponentWillUnmount');
   }
 
   render() {
-    return (
-      <View
-        collapsable={false}
-        style={[styles.container, {height: this.state.height}]}
-      />
-    );
+    return <View collapsable={false} style={styles.container} />;
   }
 }
-
-const ReactRootViewTestModule = {
-  setHeight: function(height) {
-    that.setState({height: height});
-  },
-};
 
 const styles = StyleSheet.create({
   container: {
     alignSelf: 'stretch',
   },
 });
-
-BatchedBridge.registerCallableModule(
-  'ReactRootViewTestModule',
-  ReactRootViewTestModule,
-);
 
 module.exports = {
   CatalystRootViewTestApp: CatalystRootViewTestApp,

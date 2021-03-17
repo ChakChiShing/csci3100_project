@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -15,23 +15,26 @@
 namespace facebook {
 namespace react {
 
-class YogaStylableProps : public Props {
+class YogaStylableProps;
+
+typedef std::shared_ptr<const YogaStylableProps> SharedYogaStylableProps;
+
+class YogaStylableProps {
  public:
   YogaStylableProps() = default;
+  YogaStylableProps(const YGStyle &yogaStyle);
   YogaStylableProps(
-      YogaStylableProps const &sourceProps,
-      RawProps const &rawProps);
+      const YogaStylableProps &sourceProps,
+      const RawProps &rawProps);
 
 #pragma mark - Props
 
-  YGStyle yogaStyle{};
-
-#if RN_DEBUG_STRING_CONVERTIBLE
+  const YGStyle yogaStyle{};
 
 #pragma mark - DebugStringConvertible (Partial)
 
+#if RN_DEBUG_STRING_CONVERTIBLE
   SharedDebugStringConvertibleList getDebugProps() const;
-
 #endif
 };
 

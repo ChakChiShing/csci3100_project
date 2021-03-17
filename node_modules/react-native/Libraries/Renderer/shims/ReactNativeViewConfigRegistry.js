@@ -8,8 +8,6 @@
  * @flow strict-local
  */
 
-/* eslint-disable react-internal/invariant-args */
-
 'use strict';
 
 import type {
@@ -20,24 +18,13 @@ import type {
 const invariant = require('invariant');
 
 // Event configs
-const customBubblingEventTypes: {
-  [eventName: string]: $ReadOnly<{|
-    phasedRegistrationNames: $ReadOnly<{|
-      captured: string,
-      bubbled: string,
-    |}>,
-  |}>,
-  ...,
-} = {};
-const customDirectEventTypes: {
-  [eventName: string]: $ReadOnly<{|
-    registrationName: string,
-  |}>,
-  ...,
-} = {};
+const customBubblingEventTypes = {};
+const customDirectEventTypes = {};
+const eventTypes = {};
 
 exports.customBubblingEventTypes = customBubblingEventTypes;
 exports.customDirectEventTypes = customDirectEventTypes;
+exports.eventTypes = eventTypes;
 
 const viewConfigCallbacks = new Map();
 const viewConfigs = new Map();
@@ -62,7 +49,7 @@ function processEventTypes(
   if (bubblingEventTypes != null) {
     for (const topLevelType in bubblingEventTypes) {
       if (customBubblingEventTypes[topLevelType] == null) {
-        customBubblingEventTypes[topLevelType] =
+        eventTypes[topLevelType] = customBubblingEventTypes[topLevelType] =
           bubblingEventTypes[topLevelType];
       }
     }
@@ -71,7 +58,8 @@ function processEventTypes(
   if (directEventTypes != null) {
     for (const topLevelType in directEventTypes) {
       if (customDirectEventTypes[topLevelType] == null) {
-        customDirectEventTypes[topLevelType] = directEventTypes[topLevelType];
+        eventTypes[topLevelType] = customDirectEventTypes[topLevelType] =
+          directEventTypes[topLevelType];
       }
     }
   }
@@ -81,18 +69,13 @@ function processEventTypes(
  * Registers a native view/component by name.
  * A callback is provided to load the view config from UIManager.
  * The callback is deferred until the view is actually rendered.
+ * This is done to avoid causing Prepack deopts.
  */
 exports.register = function(name: string, callback: ViewConfigGetter): string {
   invariant(
     !viewConfigCallbacks.has(name),
     'Tried to register two views with the same name %s',
     name,
-  );
-  invariant(
-    typeof callback === 'function',
-    'View config getter callback for component `%s` must be a function (received `%s`)',
-    name,
-    callback === null ? 'null' : typeof callback,
   );
   viewConfigCallbacks.set(name, callback);
   return name;
@@ -110,21 +93,17 @@ exports.get = function(name: string): ReactNativeBaseComponentViewConfig<> {
     if (typeof callback !== 'function') {
       invariant(
         false,
-        'View config getter callback for component `%s` must be a function (received `%s`).%s',
+        'View config not found for name %s.%s',
         name,
-        callback === null ? 'null' : typeof callback,
         typeof name[0] === 'string' && /[a-z]/.test(name[0])
           ? ' Make sure to start component names with a capital letter.'
           : '',
       );
     }
+    viewConfigCallbacks.set(name, null);
     viewConfig = callback();
     processEventTypes(viewConfig);
     viewConfigs.set(name, viewConfig);
-
-    // Clear the callback after the config is set so that
-    // we don't mask any errors during registration.
-    viewConfigCallbacks.set(name, null);
   } else {
     viewConfig = viewConfigs.get(name);
   }

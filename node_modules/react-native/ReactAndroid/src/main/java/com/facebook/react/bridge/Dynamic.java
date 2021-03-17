@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -13,20 +13,12 @@ package com.facebook.react.bridge;
  */
 public interface Dynamic {
   boolean isNull();
-
   boolean asBoolean();
-
   double asDouble();
-
   int asInt();
-
   String asString();
-
   ReadableArray asArray();
-
   ReadableMap asMap();
-
   ReadableType getType();
-
   void recycle();
 }

@@ -9,13 +9,30 @@
 
 'use strict';
 
+const mockNativeFunction = methodName => {
+  let warned = false;
+  return function() {
+    if (warned) {
+      return;
+    }
+    warned = true;
+    console.warn(
+      'Calling .' +
+        methodName +
+        '() in the test renderer environment is not supported. Instead, mock ' +
+        'out your components that use findNodeHandle with replacements that ' +
+        "don't rely on the native environment.",
+    );
+  };
+};
+
 const MockNativeMethods = {
-  measure: jest.fn(),
-  measureInWindow: jest.fn(),
-  measureLayout: jest.fn(),
-  setNativeProps: jest.fn(),
-  focus: jest.fn(),
-  blur: jest.fn(),
+  measure: mockNativeFunction('measure'),
+  measureInWindow: mockNativeFunction('measureInWindow'),
+  measureLayout: mockNativeFunction('measureLayout'),
+  setNativeProps: mockNativeFunction('setNativeProps'),
+  focus: mockNativeFunction('focus'),
+  blur: mockNativeFunction('blur'),
 };
 
 module.exports = MockNativeMethods;

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -9,12 +9,7 @@
 
 #import <React/RCTMultipartStreamReader.h>
 
-typedef void (^RCTMultipartDataTaskCallback)(
-    NSInteger statusCode,
-    NSDictionary *headers,
-    NSData *content,
-    NSError *error,
-    BOOL done);
+typedef void (^RCTMultipartDataTaskCallback)(NSInteger statusCode, NSDictionary *headers, NSData *content, NSError *error, BOOL done);
 
 @interface RCTMultipartDataTask : NSObject
 

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -21,6 +21,7 @@ namespace react {
 // in custom implementations of `getDebugChildren` and `getDebugProps`.
 class DebugStringConvertibleItem : public DebugStringConvertible {
  public:
+  DebugStringConvertibleItem() = default;
   DebugStringConvertibleItem(const DebugStringConvertibleItem &item) = default;
 
   DebugStringConvertibleItem(
@@ -37,7 +38,7 @@ class DebugStringConvertibleItem : public DebugStringConvertible {
  private:
   std::string name_;
   std::string value_;
-  SharedDebugStringConvertibleList debugProps_;
+  SharedDebugStringConvertibleList props_;
   SharedDebugStringConvertibleList children_;
 };
 

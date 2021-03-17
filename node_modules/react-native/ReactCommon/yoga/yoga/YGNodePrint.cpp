@@ -1,17 +1,14 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * This source code is licensed under the MIT license found in the LICENSE
+ * file in the root directory of this source tree.
  */
-
-#ifdef DEBUG
 #include "YGNodePrint.h"
 #include <stdarg.h>
 #include "YGEnums.h"
 #include "YGNode.h"
 #include "Yoga-internal.h"
-#include "Utils.h"
 
 namespace facebook {
 namespace yoga {
@@ -117,6 +114,9 @@ void YGNodeToString(
     uint32_t level) {
   indent(str, level);
   appendFormatedString(str, "<div ");
+  if (node->getPrintFunc() != nullptr) {
+    node->getPrintFunc()(node);
+  }
 
   if (options & YGPrintOptionsLayout) {
     appendFormatedString(str, "layout=\"");
@@ -133,77 +133,88 @@ void YGNodeToString(
 
   if (options & YGPrintOptionsStyle) {
     appendFormatedString(str, "style=\"");
-    const auto& style = node->getStyle();
-    if (style.flexDirection() != YGNode().getStyle().flexDirection()) {
+    if (node->getStyle().flexDirection != YGNode().getStyle().flexDirection) {
       appendFormatedString(
           str,
           "flex-direction: %s; ",
-          YGFlexDirectionToString(style.flexDirection()));
+          YGFlexDirectionToString(node->getStyle().flexDirection));
     }
-    if (style.justifyContent() != YGNode().getStyle().justifyContent()) {
+    if (node->getStyle().justifyContent != YGNode().getStyle().justifyContent) {
       appendFormatedString(
           str,
           "justify-content: %s; ",
-          YGJustifyToString(style.justifyContent()));
+          YGJustifyToString(node->getStyle().justifyContent));
     }
-    if (style.alignItems() != YGNode().getStyle().alignItems()) {
+    if (node->getStyle().alignItems != YGNode().getStyle().alignItems) {
       appendFormatedString(
-          str, "align-items: %s; ", YGAlignToString(style.alignItems()));
+          str,
+          "align-items: %s; ",
+          YGAlignToString(node->getStyle().alignItems));
     }
-    if (style.alignContent() != YGNode().getStyle().alignContent()) {
+    if (node->getStyle().alignContent != YGNode().getStyle().alignContent) {
       appendFormatedString(
-          str, "align-content: %s; ", YGAlignToString(style.alignContent()));
+          str,
+          "align-content: %s; ",
+          YGAlignToString(node->getStyle().alignContent));
     }
-    if (style.alignSelf() != YGNode().getStyle().alignSelf()) {
+    if (node->getStyle().alignSelf != YGNode().getStyle().alignSelf) {
       appendFormatedString(
-          str, "align-self: %s; ", YGAlignToString(style.alignSelf()));
+          str, "align-self: %s; ", YGAlignToString(node->getStyle().alignSelf));
     }
-    appendFloatOptionalIfDefined(str, "flex-grow", style.flexGrow());
-    appendFloatOptionalIfDefined(str, "flex-shrink", style.flexShrink());
-    appendNumberIfNotAuto(str, "flex-basis", style.flexBasis());
-    appendFloatOptionalIfDefined(str, "flex", style.flex());
+    appendFloatOptionalIfDefined(str, "flex-grow", node->getStyle().flexGrow);
+    appendFloatOptionalIfDefined(
+        str, "flex-shrink", node->getStyle().flexShrink);
+    appendNumberIfNotAuto(str, "flex-basis", node->getStyle().flexBasis);
+    appendFloatOptionalIfDefined(str, "flex", node->getStyle().flex);
 
-    if (style.flexWrap() != YGNode().getStyle().flexWrap()) {
+    if (node->getStyle().flexWrap != YGNode().getStyle().flexWrap) {
       appendFormatedString(
-          str, "flex-wrap: %s; ", YGWrapToString(style.flexWrap()));
+          str, "flexWrap: %s; ", YGWrapToString(node->getStyle().flexWrap));
     }
 
-    if (style.overflow() != YGNode().getStyle().overflow()) {
+    if (node->getStyle().overflow != YGNode().getStyle().overflow) {
       appendFormatedString(
-          str, "overflow: %s; ", YGOverflowToString(style.overflow()));
+          str, "overflow: %s; ", YGOverflowToString(node->getStyle().overflow));
     }
 
-    if (style.display() != YGNode().getStyle().display()) {
+    if (node->getStyle().display != YGNode().getStyle().display) {
       appendFormatedString(
-          str, "display: %s; ", YGDisplayToString(style.display()));
+          str, "display: %s; ", YGDisplayToString(node->getStyle().display));
     }
-    appendEdges(str, "margin", style.margin());
-    appendEdges(str, "padding", style.padding());
-    appendEdges(str, "border", style.border());
+    appendEdges(str, "margin", node->getStyle().margin);
+    appendEdges(str, "padding", node->getStyle().padding);
+    appendEdges(str, "border", node->getStyle().border);
 
-    appendNumberIfNotAuto(str, "width", style.dimensions()[YGDimensionWidth]);
-    appendNumberIfNotAuto(str, "height", style.dimensions()[YGDimensionHeight]);
     appendNumberIfNotAuto(
-        str, "max-width", style.maxDimensions()[YGDimensionWidth]);
+        str, "width", node->getStyle().dimensions[YGDimensionWidth]);
     appendNumberIfNotAuto(
-        str, "max-height", style.maxDimensions()[YGDimensionHeight]);
+        str, "height", node->getStyle().dimensions[YGDimensionHeight]);
     appendNumberIfNotAuto(
-        str, "min-width", style.minDimensions()[YGDimensionWidth]);
+        str, "max-width", node->getStyle().maxDimensions[YGDimensionWidth]);
     appendNumberIfNotAuto(
-        str, "min-height", style.minDimensions()[YGDimensionHeight]);
+        str, "max-height", node->getStyle().maxDimensions[YGDimensionHeight]);
+    appendNumberIfNotAuto(
+        str, "min-width", node->getStyle().minDimensions[YGDimensionWidth]);
+    appendNumberIfNotAuto(
+        str, "min-height", node->getStyle().minDimensions[YGDimensionHeight]);
 
-    if (style.positionType() != YGNode().getStyle().positionType()) {
+    if (node->getStyle().positionType != YGNode().getStyle().positionType) {
       appendFormatedString(
-          str, "position: %s; ", YGPositionTypeToString(style.positionType()));
+          str,
+          "position: %s; ",
+          YGPositionTypeToString(node->getStyle().positionType));
     }
 
-    appendEdgeIfNotUndefined(str, "left", style.position(), YGEdgeLeft);
-    appendEdgeIfNotUndefined(str, "right", style.position(), YGEdgeRight);
-    appendEdgeIfNotUndefined(str, "top", style.position(), YGEdgeTop);
-    appendEdgeIfNotUndefined(str, "bottom", style.position(), YGEdgeBottom);
+    appendEdgeIfNotUndefined(
+        str, "left", node->getStyle().position, YGEdgeLeft);
+    appendEdgeIfNotUndefined(
+        str, "right", node->getStyle().position, YGEdgeRight);
+    appendEdgeIfNotUndefined(str, "top", node->getStyle().position, YGEdgeTop);
+    appendEdgeIfNotUndefined(
+        str, "bottom", node->getStyle().position, YGEdgeBottom);
     appendFormatedString(str, "\" ");
 
-    if (node->hasMeasureFunc()) {
+    if (node->getMeasure() != nullptr) {
       appendFormatedString(str, "has-custom-measure=\"true\"");
     }
   }
@@ -222,4 +233,3 @@ void YGNodeToString(
 }
 } // namespace yoga
 } // namespace facebook
-#endif

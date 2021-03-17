@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -9,7 +9,7 @@
 
 #include <better/better.h>
 
-#if defined(BETTER_USE_FOLLY_CONTAINERS) || __cplusplus < 202000L
+#ifdef BETTER_USE_FOLLY_CONTAINERS
 
 #include <folly/Optional.h>
 
@@ -22,7 +22,7 @@
 namespace facebook {
 namespace better {
 
-#if defined(BETTER_USE_FOLLY_CONTAINERS) || __cplusplus < 202000L
+#ifdef BETTER_USE_FOLLY_CONTAINERS
 
 template <typename Value>
 using optional = folly::Optional<Value>;

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,16 +7,12 @@
 
 #import "RCTSurfaceRegistry.h"
 
-#import <better/mutex.h>
 #import <mutex>
-#import <shared_mutex>
 
 #import <React/RCTFabricSurface.h>
 
-using namespace facebook;
-
 @implementation RCTSurfaceRegistry {
-  better::shared_mutex _mutex;
+  std::mutex _mutex;
   NSMapTable<id, RCTFabricSurface *> *_registry;
 }
 
@@ -30,15 +26,16 @@ using namespace facebook;
   return self;
 }
 
-- (void)enumerateWithBlock:(RCTSurfaceEnumeratorBlock)block
+- (NSEnumerator<RCTFabricSurface *> *)enumerator
 {
-  std::shared_lock<better::shared_mutex> lock(_mutex);
-  block([_registry objectEnumerator]);
+  std::lock_guard<std::mutex> lock(_mutex);
+
+  return [_registry objectEnumerator];
 }
 
 - (void)registerSurface:(RCTFabricSurface *)surface
 {
-  std::unique_lock<better::shared_mutex> lock(_mutex);
+  std::lock_guard<std::mutex> lock(_mutex);
 
   ReactTag rootTag = surface.rootViewTag.integerValue;
   [_registry setObject:surface forKey:(__bridge id)(void *)rootTag];
@@ -46,7 +43,7 @@ using namespace facebook;
 
 - (void)unregisterSurface:(RCTFabricSurface *)surface
 {
-  std::unique_lock<better::shared_mutex> lock(_mutex);
+  std::lock_guard<std::mutex> lock(_mutex);
 
   ReactTag rootTag = surface.rootViewTag.integerValue;
   [_registry removeObjectForKey:(__bridge id)(void *)rootTag];
@@ -54,7 +51,7 @@ using namespace facebook;
 
 - (RCTFabricSurface *)surfaceForRootTag:(ReactTag)rootTag
 {
-  std::shared_lock<better::shared_mutex> lock(_mutex);
+  std::lock_guard<std::mutex> lock(_mutex);
 
   return [_registry objectForKey:(__bridge id)(void *)rootTag];
 }

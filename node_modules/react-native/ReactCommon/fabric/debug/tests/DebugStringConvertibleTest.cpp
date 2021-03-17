@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -19,7 +19,7 @@ TEST(DebugStringConvertibleTest, handleSimpleNode) {
 
   ASSERT_STREQ(item->getDebugName().c_str(), "View");
   ASSERT_STREQ(item->getDebugValue().c_str(), "hello");
-  ASSERT_STREQ(item->getDebugDescription().c_str(), "<View=hello/>");
+  ASSERT_STREQ(item->getDebugDescription().c_str(), "<View=hello/>\n");
 }
 
 TEST(DebugStringConvertibleTest, handleSimpleNodeWithProps) {
@@ -31,7 +31,7 @@ TEST(DebugStringConvertibleTest, handleSimpleNodeWithProps) {
 
   ASSERT_STREQ(item->getDebugName().c_str(), "View");
   ASSERT_STREQ(item->getDebugValue().c_str(), "hello");
-  ASSERT_STREQ(item->getDebugDescription().c_str(), "<View=hello x=1/>");
+  ASSERT_STREQ(item->getDebugDescription().c_str(), "<View=hello x=1/>\n");
 }
 
 TEST(DebugStringConvertibleTest, handleSimpleNodeWithChildren) {
@@ -45,7 +45,7 @@ TEST(DebugStringConvertibleTest, handleSimpleNodeWithChildren) {
   ASSERT_STREQ(item->getDebugValue().c_str(), "hello");
   ASSERT_STREQ(
       item->getDebugDescription().c_str(),
-      "<View=hello>\n  <Child=a/>\n</View>");
+      "<View=hello>\n  <Child=a/>\n</View>\n");
 }
 
 TEST(DebugStringConvertibleTest, handleNestedNode) {
@@ -61,7 +61,7 @@ TEST(DebugStringConvertibleTest, handleNestedNode) {
   ASSERT_STREQ(item->getDebugValue().c_str(), "hello");
   ASSERT_STREQ(
       item->getDebugDescription().c_str(),
-      "<View=hello x=1>\n  <Child=a x=1/>\n</View>");
+      "<View=hello x=1>\n  <Child=a x=1/>\n</View>\n");
 }
 
 TEST(DebugStringConvertibleTest, handleNodeWithComplexProps) {
@@ -80,5 +80,5 @@ TEST(DebugStringConvertibleTest, handleNodeWithComplexProps) {
   ASSERT_STREQ(item->getDebugValue().c_str(), "hello");
   ASSERT_STREQ(
       item->getDebugDescription().c_str(),
-      "<View=hello x=1(height=100 width=200)/>");
+      "<View=hello x=1(height=100 width=200)/>\n");
 }

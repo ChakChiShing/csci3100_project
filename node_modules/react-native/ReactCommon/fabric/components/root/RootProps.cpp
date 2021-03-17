@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -13,14 +13,30 @@
 namespace facebook {
 namespace react {
 
-RootProps::RootProps(RootProps const &sourceProps, RawProps const &rawProps)
-    : ViewProps(sourceProps, rawProps) {}
+static YGStyle yogaStyleFromLayoutConstraints(
+    const LayoutConstraints &layoutConstraints) {
+  auto yogaStyle = YGStyle{};
+  yogaStyle.minDimensions[YGDimensionWidth] =
+      yogaStyleValueFromFloat(layoutConstraints.minimumSize.width);
+  yogaStyle.minDimensions[YGDimensionHeight] =
+      yogaStyleValueFromFloat(layoutConstraints.minimumSize.height);
+
+  yogaStyle.maxDimensions[YGDimensionWidth] =
+      yogaStyleValueFromFloat(layoutConstraints.maximumSize.width);
+  yogaStyle.maxDimensions[YGDimensionHeight] =
+      yogaStyleValueFromFloat(layoutConstraints.maximumSize.height);
+
+  yogaStyle.direction =
+      yogaDirectionFromLayoutDirection(layoutConstraints.layoutDirection);
+
+  return yogaStyle;
+}
 
 RootProps::RootProps(
-    RootProps const &sourceProps,
-    LayoutConstraints const &layoutConstraints,
-    LayoutContext const &layoutContext)
-    : ViewProps(),
+    const RootProps &sourceProps,
+    const LayoutConstraints &layoutConstraints,
+    const LayoutContext &layoutContext)
+    : ViewProps(yogaStyleFromLayoutConstraints(layoutConstraints)),
       layoutConstraints(layoutConstraints),
       layoutContext(layoutContext){};
 

@@ -9,11 +9,12 @@
 
 'use strict';
 
-const React = require('react');
-const {DatePickerAndroid, NativeModules, View} = require('react-native');
-const BatchedBridge = require('react-native/Libraries/BatchedBridge/BatchedBridge');
-
-const {DatePickerDialogRecordingModule: RecordingModule} = NativeModules;
+const BatchedBridge = require('BatchedBridge');
+const DatePickerAndroid = require('DatePickerAndroid');
+const React = require('React');
+const RecordingModule = require('NativeModules')
+  .DatePickerDialogRecordingModule;
+const View = require('View');
 
 class DatePickerDialogTestApp extends React.Component {
   render() {

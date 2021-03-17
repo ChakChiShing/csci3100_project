@@ -9,15 +9,12 @@
 
 'use strict';
 
-const React = require('react');
-const {
-  NativeModules,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} = require('react-native');
+const Recording = require('NativeModules').Recording;
 
-const {Recording} = NativeModules;
+const React = require('React');
+const StyleSheet = require('StyleSheet');
+const View = require('View');
+const TouchableWithoutFeedback = require('TouchableWithoutFeedback');
 
 class TouchBubblingTestApp extends React.Component {
   handlePress = record => {

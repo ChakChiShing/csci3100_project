@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,16 +7,16 @@
 
 package com.facebook.react.packagerconnection;
 
-import androidx.annotation.Nullable;
+import javax.annotation.Nullable;
+
 import com.facebook.common.logging.FLog;
 
 public abstract class NotificationOnlyHandler implements RequestHandler {
   private static final String TAG = JSPackagerClient.class.getSimpleName();
 
-  public final void onRequest(@Nullable Object params, Responder responder) {
+  final public void onRequest(@Nullable Object params, Responder responder) {
     responder.error("Request is not supported");
     FLog.e(TAG, "Request is not supported");
   }
-
-  public abstract void onNotification(@Nullable Object params);
+  abstract public void onNotification(@Nullable Object params);
 }

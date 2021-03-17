@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -19,76 +19,75 @@
 namespace facebook {
 namespace react {
 
+YogaStylableProps::YogaStylableProps(const YGStyle &yogaStyle)
+    : yogaStyle(yogaStyle) {}
+
 YogaStylableProps::YogaStylableProps(
-    YogaStylableProps const &sourceProps,
-    RawProps const &rawProps)
-    : Props(sourceProps, rawProps),
-      yogaStyle(convertRawProp(rawProps, sourceProps.yogaStyle)){};
+    const YogaStylableProps &sourceProps,
+    const RawProps &rawProps)
+    : yogaStyle(convertRawProp(rawProps, sourceProps.yogaStyle)){};
 
 #pragma mark - DebugStringConvertible
 
 #if RN_DEBUG_STRING_CONVERTIBLE
 SharedDebugStringConvertibleList YogaStylableProps::getDebugProps() const {
-  auto const defaultYogaStyle = YGStyle{};
+  auto defaultYogaStyle = YGStyle{};
   return {
       debugStringConvertibleItem(
-          "direction", yogaStyle.direction(), defaultYogaStyle.direction()),
+          "direction", yogaStyle.direction, defaultYogaStyle.direction),
       debugStringConvertibleItem(
           "flexDirection",
-          yogaStyle.flexDirection(),
-          defaultYogaStyle.flexDirection()),
+          yogaStyle.flexDirection,
+          defaultYogaStyle.flexDirection),
       debugStringConvertibleItem(
           "justifyContent",
-          yogaStyle.justifyContent(),
-          defaultYogaStyle.justifyContent()),
+          yogaStyle.justifyContent,
+          defaultYogaStyle.justifyContent),
       debugStringConvertibleItem(
           "alignContent",
-          yogaStyle.alignContent(),
-          defaultYogaStyle.alignContent()),
+          yogaStyle.alignContent,
+          defaultYogaStyle.alignContent),
       debugStringConvertibleItem(
-          "alignItems", yogaStyle.alignItems(), defaultYogaStyle.alignItems()),
+          "alignItems", yogaStyle.alignItems, defaultYogaStyle.alignItems),
       debugStringConvertibleItem(
-          "alignSelf", yogaStyle.alignSelf(), defaultYogaStyle.alignSelf()),
+          "alignSelf", yogaStyle.alignSelf, defaultYogaStyle.alignSelf),
       debugStringConvertibleItem(
           "positionType",
-          yogaStyle.positionType(),
-          defaultYogaStyle.positionType()),
+          yogaStyle.positionType,
+          defaultYogaStyle.positionType),
       debugStringConvertibleItem(
-          "flexWrap", yogaStyle.flexWrap(), defaultYogaStyle.flexWrap()),
+          "flexWrap", yogaStyle.flexWrap, defaultYogaStyle.flexWrap),
       debugStringConvertibleItem(
-          "overflow", yogaStyle.overflow(), defaultYogaStyle.overflow()),
+          "overflow", yogaStyle.overflow, defaultYogaStyle.overflow),
       debugStringConvertibleItem(
-          "display", yogaStyle.display(), defaultYogaStyle.display()),
+          "display", yogaStyle.display, defaultYogaStyle.display),
+      debugStringConvertibleItem("flex", yogaStyle.flex, defaultYogaStyle.flex),
       debugStringConvertibleItem(
-          "flex", yogaStyle.flex(), defaultYogaStyle.flex()),
+          "flexGrow", yogaStyle.flexGrow, defaultYogaStyle.flexGrow),
       debugStringConvertibleItem(
-          "flexGrow", yogaStyle.flexGrow(), defaultYogaStyle.flexGrow()),
+          "flexShrink", yogaStyle.flexShrink, defaultYogaStyle.flexShrink),
       debugStringConvertibleItem(
-          "flexShrink", yogaStyle.flexShrink(), defaultYogaStyle.flexShrink()),
+          "flexBasis", yogaStyle.flexBasis, defaultYogaStyle.flexBasis),
       debugStringConvertibleItem(
-          "flexBasis", yogaStyle.flexBasis(), defaultYogaStyle.flexBasis()),
+          "margin", yogaStyle.margin, defaultYogaStyle.margin),
       debugStringConvertibleItem(
-          "margin", yogaStyle.margin(), defaultYogaStyle.margin()),
+          "position", yogaStyle.position, defaultYogaStyle.position),
       debugStringConvertibleItem(
-          "position", yogaStyle.position(), defaultYogaStyle.position()),
+          "padding", yogaStyle.padding, defaultYogaStyle.padding),
       debugStringConvertibleItem(
-          "padding", yogaStyle.padding(), defaultYogaStyle.padding()),
+          "border", yogaStyle.border, defaultYogaStyle.border),
       debugStringConvertibleItem(
-          "border", yogaStyle.border(), defaultYogaStyle.border()),
-      debugStringConvertibleItem(
-          "dimensions", yogaStyle.dimensions(), defaultYogaStyle.dimensions()),
+          "dimensions", yogaStyle.dimensions, defaultYogaStyle.dimensions),
       debugStringConvertibleItem(
           "minDimensions",
-          yogaStyle.minDimensions(),
-          defaultYogaStyle.minDimensions()),
+          yogaStyle.minDimensions,
+          defaultYogaStyle.minDimensions),
       debugStringConvertibleItem(
           "maxDimensions",
-          yogaStyle.maxDimensions(),
-          defaultYogaStyle.maxDimensions()),
+          yogaStyle.maxDimensions,
+          defaultYogaStyle.maxDimensions),
       debugStringConvertibleItem(
-          "aspectRatio",
-          yogaStyle.aspectRatio(),
-          defaultYogaStyle.aspectRatio()),
+          "aspectRatio", yogaStyle.aspectRatio, defaultYogaStyle.aspectRatio),
   };
 }
 #endif

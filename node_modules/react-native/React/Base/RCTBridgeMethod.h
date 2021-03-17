@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -15,8 +15,7 @@ typedef NS_ENUM(NSUInteger, RCTFunctionType) {
   RCTFunctionTypeSync,
 };
 
-static inline const char *RCTFunctionDescriptorFromType(RCTFunctionType type)
-{
+static inline const char *RCTFunctionDescriptorFromType(RCTFunctionType type) {
   switch (type) {
     case RCTFunctionTypeNormal:
       return "async";
@@ -32,6 +31,8 @@ static inline const char *RCTFunctionDescriptorFromType(RCTFunctionType type)
 @property (nonatomic, readonly) const char *JSMethodName;
 @property (nonatomic, readonly) RCTFunctionType functionType;
 
-- (id)invokeWithBridge:(RCTBridge *)bridge module:(id)module arguments:(NSArray *)arguments;
+- (id)invokeWithBridge:(RCTBridge *)bridge
+                module:(id)module
+             arguments:(NSArray *)arguments;
 
 @end

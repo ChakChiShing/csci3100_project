@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,14 +7,15 @@
 
 package com.facebook.react.uimanager.common;
 
-import static com.facebook.react.uimanager.common.UIManagerType.DEFAULT;
 import static com.facebook.react.uimanager.common.UIManagerType.FABRIC;
+import static com.facebook.react.uimanager.common.UIManagerType.DEFAULT;
 
 public class ViewUtil {
 
   /**
-   * Counter for uniquely identifying views. - % 2 === 0 means it is a Fabric tag. See
-   * https://github.com/facebook/react/pull/12587
+   * Counter for uniquely identifying views.
+   * - % 2 === 0 means it is a Fabric tag.
+   * See https://github.com/facebook/react/pull/12587
    *
    * @param reactTag {@link }
    */
@@ -32,4 +33,5 @@ public class ViewUtil {
   public static boolean isRootTag(int reactTag) {
     return reactTag % 10 == 1;
   }
+
 }

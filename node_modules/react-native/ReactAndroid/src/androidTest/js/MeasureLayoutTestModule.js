@@ -9,11 +9,14 @@
 
 'use strict';
 
-const React = require('react');
-const {StyleSheet, UIManager, View, findNodeHandle} = require('react-native');
-const BatchedBridge = require('react-native/Libraries/BatchedBridge/BatchedBridge');
+const BatchedBridge = require('BatchedBridge');
+const React = require('React');
+const ReactNative = require('ReactNative');
+const View = require('View');
+const StyleSheet = require('StyleSheet');
+const UIManager = require('UIManager');
 
-const assertEquals = require('./Asserts').assertEquals;
+const assertEquals = require('Asserts').assertEquals;
 
 const styles = StyleSheet.create({
   A: {
@@ -47,10 +50,10 @@ let A, B, C, D;
 
 class MeasureLayoutTestApp extends React.Component {
   componentDidMount() {
-    A = findNodeHandle(this.refs.A);
-    B = findNodeHandle(this.refs.B);
-    C = findNodeHandle(this.refs.C);
-    D = findNodeHandle(this.refs.D);
+    A = ReactNative.findNodeHandle(this.refs.A);
+    B = ReactNative.findNodeHandle(this.refs.B);
+    C = ReactNative.findNodeHandle(this.refs.C);
+    D = ReactNative.findNodeHandle(this.refs.D);
   }
 
   render() {

@@ -1,10 +1,9 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
-
 package com.facebook.react.fabric.mounting;
 
 import static android.view.View.MeasureSpec.EXACTLY;
@@ -14,6 +13,9 @@ import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.yoga.YogaMeasureMode;
 
 public class LayoutMetricsConversions {
+
+  // Represents the Layout constraint mode "undefined" from React side.
+  public static final int REACT_CONSTRAINT_UNDEFINED = -2147483648;
 
   public static float getMinSize(int viewMeasureSpec) {
     int mode = View.MeasureSpec.getMode(viewMeasureSpec);
@@ -26,27 +28,30 @@ public class LayoutMetricsConversions {
     int mode = View.MeasureSpec.getMode(viewMeasureSpec);
     int size = View.MeasureSpec.getSize(viewMeasureSpec);
 
-    // Infinity represents an "unconstrained" size
-    return mode == View.MeasureSpec.UNSPECIFIED ? Float.POSITIVE_INFINITY : size;
+    return mode == View.MeasureSpec.UNSPECIFIED ? REACT_CONSTRAINT_UNDEFINED : size;
   }
 
   public static float getYogaSize(float minSize, float maxSize) {
+    float yogaSize;
     if (minSize == maxSize) {
-      return PixelUtil.toPixelFromDIP(maxSize);
-    } else if (Float.isInfinite(maxSize)) {
-      return Float.POSITIVE_INFINITY;
+      yogaSize = PixelUtil.toPixelFromDIP(maxSize);
+    } else if (maxSize == REACT_CONSTRAINT_UNDEFINED) {
+      yogaSize = 0;
     } else {
-      return PixelUtil.toPixelFromDIP(maxSize);
+      yogaSize = PixelUtil.toPixelFromDIP(maxSize);
     }
+    return yogaSize;
   }
 
   public static YogaMeasureMode getYogaMeasureMode(float minSize, float maxSize) {
+    YogaMeasureMode yogaMeasureMode;
     if (minSize == maxSize) {
-      return YogaMeasureMode.EXACTLY;
-    } else if (Float.isInfinite(maxSize)) {
-      return YogaMeasureMode.UNDEFINED;
+      yogaMeasureMode = YogaMeasureMode.EXACTLY;
+    } else if (maxSize == REACT_CONSTRAINT_UNDEFINED) {
+      yogaMeasureMode = YogaMeasureMode.UNDEFINED;
     } else {
-      return YogaMeasureMode.AT_MOST;
+      yogaMeasureMode = YogaMeasureMode.AT_MOST;
     }
+    return yogaMeasureMode;
   }
 }

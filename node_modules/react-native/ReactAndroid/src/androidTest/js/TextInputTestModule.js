@@ -9,17 +9,14 @@
 
 'use strict';
 
-const React = require('react');
-const {
-  NativeModules,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} = require('react-native');
-const BatchedBridge = require('react-native/Libraries/BatchedBridge/BatchedBridge');
+const BatchedBridge = require('BatchedBridge');
+const React = require('React');
+const StyleSheet = require('StyleSheet');
+const Text = require('Text');
+const TextInput = require('TextInput');
+const View = require('View');
 
-const {Recording} = NativeModules;
+const Recording = require('NativeModules').Recording;
 
 let app;
 
@@ -170,7 +167,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   textInputColor: {
-    color: '#00ff00',
+    marginLeft: 20,
   },
 });
 

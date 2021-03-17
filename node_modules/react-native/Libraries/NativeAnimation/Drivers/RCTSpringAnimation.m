@@ -1,19 +1,19 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
 
-#import <React/RCTSpringAnimation.h>
+#import "RCTSpringAnimation.h"
 
 #import <UIKit/UIKit.h>
 
 #import <React/RCTConvert.h>
 #import <React/RCTDefines.h>
 
-#import <React/RCTAnimationUtils.h>
-#import <React/RCTValueAnimatedNode.h>
+#import "RCTAnimationUtils.h"
+#import "RCTValueAnimatedNode.h"
 
 @interface RCTSpringAnimation ()
 
@@ -113,12 +113,14 @@ RCT_NOT_IMPLEMENTED(- (instancetype)init)
   }
 
   // calculate delta time
+  NSTimeInterval deltaTime;
   if(_animationStartTime == -1) {
     _t = 0.0;
     _animationStartTime = currentTime;
+    deltaTime = 0.0;
   } else {
     // Handle frame drops, and only advance dt by a max of MAX_DELTA_TIME
-    NSTimeInterval deltaTime = MIN(MAX_DELTA_TIME, currentTime - _animationCurrentTime);
+    deltaTime = MIN(MAX_DELTA_TIME, currentTime - _animationCurrentTime);
     _t = _t + deltaTime / RCTAnimationDragCoefficient();
   }
 

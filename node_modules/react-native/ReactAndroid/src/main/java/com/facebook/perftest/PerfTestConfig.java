@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,10 +7,13 @@
 
 package com.facebook.perftest;
 
-/** PerfTestConfig stub. */
+/**
+ * PerfTestConfig stub.
+ */
 public class PerfTestConfig {
 
   public boolean isRunningInPerfTest() {
     return false;
   }
+
 }

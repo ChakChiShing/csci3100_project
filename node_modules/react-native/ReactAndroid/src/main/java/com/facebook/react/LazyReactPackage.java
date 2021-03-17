@@ -1,15 +1,14 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
-
 package com.facebook.react;
 
 import static com.facebook.systrace.Systrace.TRACE_TAG_REACT_JAVA_BRIDGE;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 import com.facebook.react.bridge.ModuleHolder;
 import com.facebook.react.bridge.ModuleSpec;
 import com.facebook.react.bridge.NativeModule;
@@ -77,8 +76,8 @@ public abstract class LazyReactPackage implements ReactPackage {
    * @param reactContext
    * @return
    */
-  public Iterable<ModuleHolder> getNativeModuleIterator(
-      final ReactApplicationContext reactContext) {
+  /* package */
+  Iterable<ModuleHolder> getNativeModuleIterator(final ReactApplicationContext reactContext) {
     final Map<String, ReactModuleInfo> reactModuleInfoMap =
         getReactModuleInfoProvider().getReactModuleInfos();
     final List<ModuleSpec> nativeModules = getNativeModules(reactContext);

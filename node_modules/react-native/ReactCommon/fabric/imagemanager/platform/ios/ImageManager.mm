@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,38 +7,27 @@
 
 #include "ImageManager.h"
 
-#import <React/RCTImageLoaderWithAttributionProtocol.h>
-#import <React/RCTUtils.h>
-#import <react/utils/ManagedObjectWrapper.h>
+#import <React/RCTImageLoader.h>
 
 #import "RCTImageManager.h"
-#import "RCTSyncImageManager.h"
 
 namespace facebook {
 namespace react {
 
-ImageManager::ImageManager(ContextContainer::Shared const &contextContainer)
-{
-  id<RCTImageLoaderWithAttributionProtocol> imageLoader =
-      (id<RCTImageLoaderWithAttributionProtocol>)unwrapManagedObject(
-          contextContainer->at<std::shared_ptr<void>>("RCTImageLoader"));
-  if (RCTRunningInTestEnvironment()) {
-    self_ = (__bridge_retained void *)[[RCTSyncImageManager alloc] initWithImageLoader:imageLoader];
-  } else {
-    self_ = (__bridge_retained void *)[[RCTImageManager alloc] initWithImageLoader:imageLoader];
-  }
+ImageManager::ImageManager(void *platformSpecificCounterpart) {
+  self_ = (__bridge_retained void *)[[RCTImageManager alloc]
+      initWithImageLoader:(__bridge RCTImageLoader *)
+                              platformSpecificCounterpart];
 }
 
-ImageManager::~ImageManager()
-{
+ImageManager::~ImageManager() {
   CFRelease(self_);
   self_ = nullptr;
 }
 
-ImageRequest ImageManager::requestImage(const ImageSource &imageSource, SurfaceId surfaceId) const
-{
+ImageRequest ImageManager::requestImage(const ImageSource &imageSource) const {
   RCTImageManager *imageManager = (__bridge RCTImageManager *)self_;
-  return [imageManager requestImage:imageSource surfaceId:surfaceId];
+  return [imageManager requestImage:imageSource];
 }
 
 } // namespace react

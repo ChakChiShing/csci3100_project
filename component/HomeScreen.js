@@ -1,11 +1,20 @@
+import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
+
+
+
+
 
 class HomeScreen extends React.Component {
+
     render(){
+      const Tab = createMaterialTopTabNavigator();
       return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Home!</Text>
+        <View>
+          <Text>try</Text>
         </View>
       );
     }

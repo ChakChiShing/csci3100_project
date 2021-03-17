@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,7 +7,11 @@
 
 package com.facebook.react.uimanager;
 
-/** A task to execute on the UI View for third party libraries. */
+import android.view.View;
+
+/**
+ * A task to execute on the UI View for third party libraries.
+ */
 public interface UIBlock {
   public void execute(NativeViewHierarchyManager nativeViewHierarchyManager);
 }

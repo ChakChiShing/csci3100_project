@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -58,14 +58,12 @@ static const NSUInteger kMatrixArrayLength = 4 * 4;
   }
   // legacy matrix support
   if ([(NSArray *)json count] == kMatrixArrayLength && [json[0] isKindOfClass:[NSNumber class]]) {
-    RCTLogWarn(
-        @"[RCTConvert CATransform3D:] has deprecated a matrix as input. Pass an array of configs (which can contain a matrix key) instead.");
+    RCTLogWarn(@"[RCTConvert CATransform3D:] has deprecated a matrix as input. Pass an array of configs (which can contain a matrix key) instead.");
     return [self CATransform3DFromMatrix:json];
   }
 
   CGFloat zeroScaleThreshold = FLT_EPSILON;
 
-  CATransform3D next;
   for (NSDictionary *transformConfig in (NSArray<NSDictionary *> *)json) {
     if (transformConfig.count != 1) {
       RCTLogConvertError(json, @"a CATransform3D. You must specify exactly one property per transform object.");
@@ -75,13 +73,10 @@ static const NSUInteger kMatrixArrayLength = 4 * 4;
     id value = transformConfig[property];
 
     if ([property isEqualToString:@"matrix"]) {
-      next = [self CATransform3DFromMatrix:value];
-      transform = CATransform3DConcat(next, transform);
+      transform = [self CATransform3DFromMatrix:value];
 
     } else if ([property isEqualToString:@"perspective"]) {
-      next = CATransform3DIdentity;
-      next.m34 = -1 / [value floatValue];
-      transform = CATransform3DConcat(next, transform);
+      transform.m34 = -1 / [value floatValue];
 
     } else if ([property isEqualToString:@"rotateX"]) {
       CGFloat rotate = [self convertToRadians:value];
@@ -127,15 +122,11 @@ static const NSUInteger kMatrixArrayLength = 4 * 4;
 
     } else if ([property isEqualToString:@"skewX"]) {
       CGFloat skew = [self convertToRadians:value];
-      next = CATransform3DIdentity;
-      next.m21 = tanf(skew);
-      transform = CATransform3DConcat(next, transform);
+      transform.m21 = tanf(skew);
 
     } else if ([property isEqualToString:@"skewY"]) {
       CGFloat skew = [self convertToRadians:value];
-      next = CATransform3DIdentity;
-      next.m12 = tanf(skew);
-      transform = CATransform3DConcat(next, transform);
+      transform.m12 = tanf(skew);
 
     } else {
       RCTLogError(@"Unsupported transform type for a CATransform3D: %@.", property);

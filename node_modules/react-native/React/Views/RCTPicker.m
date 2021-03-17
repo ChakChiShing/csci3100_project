@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -10,7 +10,7 @@
 #import "RCTConvert.h"
 #import "RCTUtils.h"
 
-@interface RCTPicker () <UIPickerViewDataSource, UIPickerViewDelegate, UIPickerViewAccessibilityDelegate>
+@interface RCTPicker() <UIPickerViewDataSource, UIPickerViewDelegate>
 @end
 
 @implementation RCTPicker
@@ -23,15 +23,12 @@
     _selectedIndex = NSNotFound;
     _textAlign = NSTextAlignmentCenter;
     self.delegate = self;
-    [self selectRow:0 inComponent:0
-           animated:
-               YES]; // Workaround for missing selection indicator lines (see
-                     // https://stackoverflow.com/questions/39564660/uipickerview-selection-indicator-not-visible-in-ios10)
+    [self selectRow:0 inComponent:0 animated:YES]; // Workaround for missing selection indicator lines (see https://stackoverflow.com/questions/39564660/uipickerview-selection-indicator-not-visible-in-ios10)
   }
   return self;
 }
 
-RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
+RCT_NOT_IMPLEMENTED(- (instancetype)initWithCoder:(NSCoder *)aDecoder)
 
 - (void)setItems:(NSArray<NSDictionary *> *)items
 {
@@ -57,7 +54,8 @@ RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
   return 1;
 }
 
-- (NSInteger)pickerView:(__unused UIPickerView *)pickerView numberOfRowsInComponent:(__unused NSInteger)component
+- (NSInteger)pickerView:(__unused UIPickerView *)pickerView
+numberOfRowsInComponent:(__unused NSInteger)component
 {
   return _items.count;
 }
@@ -71,8 +69,7 @@ RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
   return [RCTConvert NSString:_items[row][@"label"]];
 }
 
-- (CGFloat)pickerView:(__unused UIPickerView *)pickerView rowHeightForComponent:(NSInteger)__unused component
-{
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
   return _font.pointSize + 19;
 }
 
@@ -82,11 +79,13 @@ RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
            reusingView:(UILabel *)label
 {
   if (!label) {
-    label = [[UILabel alloc] initWithFrame:(CGRect){CGPointZero,
-                                                    {
-                                                        [pickerView rowSizeForComponent:component].width,
-                                                        [pickerView rowSizeForComponent:component].height,
-                                                    }}];
+    label = [[UILabel alloc] initWithFrame:(CGRect){
+      CGPointZero,
+      {
+        [pickerView rowSizeForComponent:component].width,
+        [pickerView rowSizeForComponent:component].height,
+      }
+    }];
   }
 
   label.font = _font;
@@ -99,23 +98,15 @@ RCT_NOT_IMPLEMENTED(-(instancetype)initWithCoder : (NSCoder *)aDecoder)
 }
 
 - (void)pickerView:(__unused UIPickerView *)pickerView
-      didSelectRow:(NSInteger)row
-       inComponent:(__unused NSInteger)component
+      didSelectRow:(NSInteger)row inComponent:(__unused NSInteger)component
 {
   _selectedIndex = row;
   if (_onChange && _items.count > (NSUInteger)row) {
     _onChange(@{
-      @"newIndex" : @(row),
-      @"newValue" : RCTNullIfNil(_items[row][@"value"]),
+      @"newIndex": @(row),
+      @"newValue": RCTNullIfNil(_items[row][@"value"]),
     });
   }
-}
-
-#pragma mark - UIPickerViewAccessibilityDelegate protocol
-
-- (NSString *)pickerView:(UIPickerView *)pickerView accessibilityLabelForComponent:(NSInteger)component
-{
-  return super.accessibilityLabel;
 }
 
 @end
