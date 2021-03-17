@@ -15,4 +15,23 @@ expo start
 ```
 - this should be able to open a webiste in browser(EXPO)    then  click the emulator or open in web to see the real time change
 
+------------------------------------------------------------------------------------------------
+Once you clone the project into host there is already connection between your host and this github account
+------------------------------------------------------------------------------------------------
 
+# How to commit
+```
+git add .
+```
+```
+git commit -m "{type the name you want}"
+```
+```
+git pull
+```
+```
+git push
+```
+------------------------------------------------------------------------------------------------
+TO BE SAFE,  PLEASE SAVE ANOTHER COPIES OF YOUR CODE BEFORE UPLOAD IT TO GITHUB
+------------------------------------------------------------------------------------------------
