@@ -20,6 +20,7 @@ Once you clone the project into host there is already connection between your ho
 ------------------------------------------------------------------------------------------------
 
 # How to commit
+for more info check link{https://ihower.tw/git/remote.html}
 ```
 git add .
 ```
