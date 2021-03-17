@@ -13,6 +13,6 @@ git clone https://github.com/ChakChiShing/csci3100_project.git
 ``` 
 expo start 
 ```
--this should be able to open a webiste in browser(EXPO)    then  click the emulator or open in web to see the real time change
+- this should be able to open a webiste in browser(EXPO)    then  click the emulator or open in web to see the real time change
 
 
