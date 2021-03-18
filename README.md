@@ -1,5 +1,10 @@
+# TODO:
+[Mark] Login screen navigate to forgot password page   
+[Mark] Summary page with linkage to database  
+[Mark] Home page linkage to comments  
+
 # csci3100_project
-a book-keeping app
+a bill tracking app
 
 # How to run
 - GO TO TERMINAL
