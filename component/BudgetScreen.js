@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput,useState } from 'react-native';
+import { StyleSheet, Text, View, TextInput,useState, TouchableOpacity } from 'react-native';
 
 class BudgetScreen extends React.Component {
     constructor(props) {
@@ -10,19 +10,31 @@ class BudgetScreen extends React.Component {
           currency: 'HKD$'
         };
       }
+
+      _onPressButton(value) {
+        console.log(value);
+      }
   render(){
 
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignContent:'center', }}>
           <View style = {styles.header}>
-          <Text>{this.state.currency}{this.state.value}</Text>
+          <Text style ={{fontSize:20, marginBottom:5}}>{this.state.currency}{this.state.value}</Text>
             <TextInput 
             
             keyboardType='numeric'
             placeholder = "change the value here"
-            onChangeText={(val) => this.setState({ value: val})}></TextInput>
+            onChangeText={(val) => this.setState({ value: val})}
+            ></TextInput>
           </View>
+
+
+          <TouchableOpacity style={styles.appButtonContainer} onPress={this._onPressButton}>
+      <Text style={styles.appButtonText}>Save </Text>
+    </TouchableOpacity>
+          
       </View>
+      
     );
   }
 }
@@ -37,12 +49,32 @@ class BudgetScreen extends React.Component {
     },
     header: {
         alignItems: 'center',
-      justifyContent: 'center',
+        justifyContent: 'center',
         backgroundColor: '#CCFFFF',
         width : 380,
-        height: 60,
+        height: 80,
         padding: 8,
+        marginBottom:80
         
+    },
+    appButtonContainer: {
+      elevation: 8,
+      backgroundColor: "#009688",
+      borderRadius: 10,
+      paddingVertical: 10,
+      paddingHorizontal: 12,
+      
+      
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignContent: 'center'
+    },
+    appButtonText: {
+      fontSize: 28,
+      color: "#fff",
+      fontWeight: "bold",
+      alignSelf: "center",
+      textTransform: "uppercase"
     }
   });
 

@@ -11,8 +11,7 @@ import SettingScreen from './component/SettingScreen.js';
 import AddBilScreen from './component/AddBilScreen.js';
 
 const Tab = createBottomTabNavigator();
-const value = 2000;
-const currency ='HKD$';
+
 export default function App() {
   return (
     <NavigationContainer>

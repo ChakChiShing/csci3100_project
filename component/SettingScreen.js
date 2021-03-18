@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BudgetScreen from "./BudgetScreen.js";
 import CurrencyScreen from "./CurrencyScreen.js";
@@ -11,30 +11,20 @@ function Set( { navigation } ) {
   return (
     
     <View style={{ flex: 1, justifyContent: 'column', alignContent:'center',}}>
+    
       
-      <View style = {styles.box}>
-        <Text style={styles.words}>Budget</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Budget')} 
+      style={styles.appButtonContainer}>
+        <Text style={styles.appButtonText}>Budget </Text>   
+        <Text style ={styles.appButtonText}> $2000</Text>
+      </TouchableOpacity>
 
-        <View>
-          <Button
-            
-            title="HKD$4000"
-            onPress={() => navigation.navigate('Budget')}
-          />
-        </View>
-      </View>
-      
-      <View style = {styles.box}>
-        <Text style={styles.words}>Currency</Text>
 
-        <View>
-          <Button
-          
-          title="HKD$"
-          onPress={() => navigation.navigate('Currency')}
-          />
-        </View>
-      </View>
+      <TouchableOpacity onPress={() => navigation.navigate('Currency')} 
+      style={styles.appButtonContainer}>
+        <Text style={styles.appButtonText}>Currency </Text>
+        <Text style ={styles.appButtonText}>HKD$</Text>
+      </TouchableOpacity>
 
       
       </View>
@@ -77,12 +67,23 @@ class SettingScreen extends React.Component {
         height: 80,
       },
 
-      words: {
-        
-        justifyContent: 'center',
-        alignContent:'center',
-        fontSize: 20,
+
+
+      appButtonContainer: {
+        elevation: 8,
+        backgroundColor: "#009688",
+        borderRadius: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        marginBottom: 10
       },
+      appButtonText: {
+        fontSize: 28,
+        color: "#fff",
+        fontWeight: "bold",
+        alignSelf: "center",
+        textTransform: "uppercase"
+      }
 
      
     });

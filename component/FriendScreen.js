@@ -10,13 +10,13 @@ class FriendScreen extends React.Component {
     const Tab = createMaterialTopTabNavigator();
     return (
       
-      <SafeAreaProvider>
+      <SafeAreaProvider mode="margin" style={{ flex: 1}}>
         <Tab.Navigator  initialRouteName='FriendList'
       tabBarOptions={{
         
         labelStyle: { fontSize: 12 },
         tabStyle: { width: 200 },
-        style: { backgroundColor: 'powderblue' },
+        style: { paddingTop: 40,backgroundColor: 'powderblue' },
         showIcon: true,
       }}>
       <Tab.Screen name="FriendList" component={FriendList}
