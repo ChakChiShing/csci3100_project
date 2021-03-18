@@ -1,11 +1,9 @@
-import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BudgetScreen from "./BudgetScreen.js";
 import CurrencyScreen from "./CurrencyScreen.js";
-import CategoryScreen from "./CategoryScreen.js";
+
 
 
 
@@ -20,7 +18,7 @@ function Set( { navigation } ) {
         <View>
           <Button
             
-            title="HKD$2000"
+            title="HKD$4000"
             onPress={() => navigation.navigate('Budget')}
           />
         </View>
@@ -38,15 +36,7 @@ function Set( { navigation } ) {
         </View>
       </View>
 
-      <View style = {styles.box}>
-        <Text style={styles.words}>Category</Text>
-        <View>
-        <Button
-          title="damn"
-          onPress={() => navigation.navigate('Category')}
-          />
-        </View>
-      </View>
+      
       </View>
   );
 }
@@ -60,7 +50,6 @@ class SettingScreen extends React.Component {
         <Stack.Screen name="Set" component={Set}/>
         <Stack.Screen name="Budget" component={BudgetScreen} />
         <Stack.Screen name="Currency" component={CurrencyScreen} />
-        <Stack.Screen name="Category" component={CategoryScreen} />
         </Stack.Navigator>
       );
     }

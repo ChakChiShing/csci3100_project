@@ -11,7 +11,7 @@
 'use strict';
 
 const DeprecatedImageStylePropTypes = require('../DeprecatedPropTypes/DeprecatedImageStylePropTypes');
-const TextStylePropTypes = require('../Text/TextStylePropTypes');
+const DeprecatedTextStylePropTypes = require('../DeprecatedPropTypes/DeprecatedTextStylePropTypes');
 const DeprecatedViewStylePropTypes = require('../DeprecatedPropTypes/DeprecatedViewStylePropTypes');
 
 const invariant = require('invariant');
@@ -51,7 +51,11 @@ class StyleSheetValidation {
     if (!__DEV__ || global.__RCTProfileIsProfiling) {
       return;
     }
-    for (const prop in styles[name]) {
+    if (!styles[name]) {
+      return;
+    }
+    const styleProps = Object.keys(styles[name]);
+    for (const prop of styleProps) {
       StyleSheetValidation.validateStyleProp(
         prop,
         styles[name],
@@ -89,7 +93,7 @@ const allStylePropTypes = {};
 
 if (__DEV__ && !global.__RCTProfileIsProfiling) {
   StyleSheetValidation.addValidStylePropTypes(DeprecatedImageStylePropTypes);
-  StyleSheetValidation.addValidStylePropTypes(TextStylePropTypes);
+  StyleSheetValidation.addValidStylePropTypes(DeprecatedTextStylePropTypes);
   StyleSheetValidation.addValidStylePropTypes(DeprecatedViewStylePropTypes);
 }
 
