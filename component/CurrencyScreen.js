@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import CurrencyPicker from "react-native-currency-picker"
+import CurrencyPicker from "react-native-currency-picker";
 
 
 

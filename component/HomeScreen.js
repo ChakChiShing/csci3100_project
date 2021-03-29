@@ -18,20 +18,6 @@ class HomeScreen extends React.Component {
     this.setState({showFish: true})
     this.state.counter =this.state.counter+1
   }
-
-//   Image = () => {
-//     const ChipStyles = useRef({
-//         position: 'absolute',
-//         top: Math.floor(Math.random()*50),
-//         left: '50%',
-//         transform: 'translate(-50%, -50%)'
-//     });
- 
-//     return (
-//       <img src={myImg} style={ChipStyles.current} alt=""}/>
-//     )
-//  }
-
     render(){
       const isClick = this.state.showFish;
       var fuckingFish = [];
@@ -43,7 +29,7 @@ class HomeScreen extends React.Component {
           RandomNumberX = Math.floor(Math.random() * 400) + 1, 
           RandomNumberY = Math.floor(Math.random() * 500) + 1, 
           fuckingFish.push(     
-            <Image source={require('../assets/realfish.jpeg')} style={{height:100, width:150, position:'absolute', left:RandomNumberX, top:RandomNumberY}}/>
+            <Image source={require('../assets/realfish.png')} style={{height:100, width:150, position:'absolute', left:RandomNumberX, top:RandomNumberY}}/>
 
           )
         }
