@@ -35,7 +35,6 @@ class HomeScreen extends React.Component {
         }
       }
 
-
       return (
         <ImageBackground
             source={require('../assets/background.jpg')} style={styles.backgroundcontainer}>
@@ -104,4 +103,5 @@ class HomeScreen extends React.Component {
     });
   
     export default HomeScreen;
+
 

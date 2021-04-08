@@ -3,7 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import FriendScreen from './component/FriendScreen.js';
+import FriendScreen from './component/Friends/FriendScreen.js';
 import HomeScreen from './component/HomeScreen.js';
 import SettingScreen from './component/SettingScreen.js';
 import AddBilScreen from './component/AddBilScreen.js';

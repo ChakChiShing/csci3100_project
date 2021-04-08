@@ -69,7 +69,7 @@ function BillScreen({navigation}){
         </View>
       
       <View style={styles.fixToText}>
-        <Image source={require('../assets/pieChart.png')}/>
+      <Image source={require('../assets/pieChart.png')}/>
       </View>
 
       <View style={styles.fixTitle}>
@@ -173,7 +173,7 @@ function AddBill({navigation}){
           
           <Image 
             style={styles.tinyLogo}
-            source={require('.."/assets/blank.png')} />
+            source={require('../assets/blank.png')} />
         </View>
         
         <View style={styles.fixToText}>
@@ -215,7 +215,6 @@ function AddBill({navigation}){
               <Text style={styles.number}>   6   </Text>
             </View>
           </TouchableOpacity>
-  
         </View>
   
         <View style={styles.fixToText}>
@@ -253,7 +252,7 @@ function AddBill({navigation}){
           </TouchableOpacity>
   
           <TouchableOpacity onPress={() => setText(prevCount => 0)}>
-          <Image style={styles.tinyLogo} source={require('./assets/back.png')} />
+          <Image style={styles.tinyLogo} source={require('../assets/back.png')}/>
           </TouchableOpacity>
   
         </View>
@@ -271,14 +270,12 @@ const Stack = createStackNavigator();
 class AddBilScreen extends React.Component {
   render(){
     return (
-      <NavigationContainer>
-
       <Stack.Navigator initialRouteName="Bill">
         <Stack.Screen name="Bill" component={BillScreen}/>
         <Stack.Screen name="Add" component={AddBill}/>
       </Stack.Navigator>
       
-    </NavigationContainer>
+    
     );
   }
 }
