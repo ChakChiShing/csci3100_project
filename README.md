@@ -1,7 +1,8 @@
+# Message:  
+Uploaded new login/password recovery .js  
+
+
 # TODO:
-[Mark] Login screen navigate to forgot password page   
-[Mark] Summary page with linkage to database  
-[Mark] Home page linkage to comments  
 
 # csci3100_project
 a bill tracking app
