@@ -1,168 +1,107 @@
-import React, { Component, useState } from "react";
-import { Button } from "react-native";
-import { Modal } from "react-native";
-import { ScrollView } from "react-native";
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  StatusBar,
-  TouchableOpacity,
-  Dimensions,
-  Image,
-  ImageBackground,
-} from "react-native";
+import { StatusBar } from 'expo-status-bar';
+import React, { useRef, Component } from 'react';
+import { StyleSheet, Text, View, Image, ImageBackground, Button, SafeAreaView, Alert, TouchableOpacity} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { showing: false };
+    this.state = {
+      showFish: false,//initially set to false
+      counter: 0
+    }
+    this.Addfish = this.Addfish.bind(this);  
+    
   }
-  toggle = () => {
-    this.setState({
-      showing: !this.state.showing,
+
+  Addfish = () =>{
+    this.setState({showFish: true})
+    this.state.counter =this.state.counter+1
+  }
+    render(){
+      const isClick = this.state.showFish;
+      var fuckingFish = [];
+      var RandomNumberX;
+      var RandomNumberY; 
+
+      if(isClick){
+        for( let i=0; i<this.state.counter; i++){
+          RandomNumberX = Math.floor(Math.random() * 400) + 1, 
+          RandomNumberY = Math.floor(Math.random() * 500) + 1, 
+          fuckingFish.push(     
+            <Image source={require('../assets/realfish.png')} style={{height:100, width:150, position:'absolute', left:RandomNumberX, top:RandomNumberY}}/>
+
+          )
+        }
+      }
+
+      return (
+        <ImageBackground
+            source={require('../assets/background.jpg')} style={styles.backgroundcontainer}>
+        <View style ={{flex:1, justifyContent: 'center',}}>
+          
+          <View style ={{ backgroundColor:'white', bottom: 340}}>
+            <TouchableOpacity 
+              onPress={this.Addfish}> 
+              <Ionicons name ='add-circle' style= {styles.plus}></Ionicons>
+            </TouchableOpacity>
+            {fuckingFish}
+          </View>
+      </View>
+      </ImageBackground>
+      );
+    }
+  }
+  
+  
+    const styles = StyleSheet.create({
+      container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+
+      backgroundcontainer: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+      },
+
+      pic: {
+        width: 150,
+        height:100,
+      },
+      plus:{
+        fontSize:60,
+        position: 'absolute',
+        right: 20,
+        //bottom:0,
+        top: 350,
+        marginTop: 310,
+      },
+      fish: {
+        position: 'absolute',
+        right: 20,
+        
+        marginTop: 310,
+        borderRadius: 30,
+        width: 60,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        //backgroundColor: 'rgba(0,0,0,0.7)',
+        padding: 15
+      },
+
+      btnImage:
+      {
+          resizeMode: 'contain',
+          width: '100%',
+          tintColor: 'white'
+      }
     });
-  };
-  render() {
-    return (
-      <>
-        <StatusBar />
-        <SafeAreaView style={styles.container}>
-          <ImageBackground
-            source={require("../assets/home_BG.png")}
-            style={styles.image}
-          >
-            <SafeAreaView style={styles.container}>
-              {/*-----------Upper section-----------*/}
-              <View style={styles.head}>
-                <Text style={styles.headerText}>Aquarium</Text>
-              </View>
+  
+    export default HomeScreen;
 
-              {/*-----------Bottum section-----------*/}
-              <View style={styles.bottum}>
-                {/*-----------Comment box section-----------*/}
-                {!this.state.showing && (
-                    <View
-                      style={styles.emptyChatBox}
-                    >
-                    </View>
-                  )}
-                  {this.state.showing && (
-                    <View
-                      style={styles.chatBox}
-                    >
-                      <Text style={styles.messageText}>
-                        Showing comments here!{"\n"}Example{"\n"}Me:
-                        124965478914723561423654asda4sd6as{'\n'}
-                        can be finished upon having database
-                      </Text>
-                    </View>
-                  )}
-                  {/*-----------Likes count section-----------*/}
-                  <View style={styles.likeCount}>
-                    <View style={styles.likeCount}>
-                      <Image
-                        source={require("../assets/like.png")}
-                        style={styles.thumbs}
-                      />
-                    </View>
-                    <View style={styles.likeCount}>
-                      <Image
-                        source={require("../assets/dislike.png")}
-                        style={styles.thumbs}
-                      />
-                    </View>
-                  </View>
-              </View>
-              <View style={styles.reserved}>
-                <View style={styles.buttonMsg}>
-                  <Button
-                    title="Message"
-                    onPress={() => this.toggle()}
-                  ></Button>
-                </View>
-              </View>
-            </SafeAreaView>
-          </ImageBackground>
-        </SafeAreaView>
-      </>
-    );
-  }
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  headerText: {
-    fontSize: 30,
-    margin: 8,
-    borderRadius: 8,
-    borderColor: "black",
-    backgroundColor: "#f5bd4eCC",
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-    color: "black",
-    borderWidth: 4,
-  },
-  reserved: {
-    flex: 0.3,
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-  },
-  head: {
-    flex: 2,
-  },
-  heading: {
-    fontSize: 20,
-  },
-  bottum: {
-    flex: 2,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  chatBox: {
-    flex: 1,
-    backgroundColor: "#f5e44e88",
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: "#000",
-    margin: 8,
-  },
-  emptyChatBox:{
-    flex: 1,
-    margin: 10,
-  },
-  messageText: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    flexWrap: "wrap",
-  },
-  normalText: {
-    color: "#000",
-  },
-  likeCount: {
-    margin: 20,
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  thumbs: {
-    flex: 1,
-    resizeMode: "stretch",
-  },
-  buttonMsg: {
-    width: 100,
-  },
-});
-
-export default HomeScreen;
