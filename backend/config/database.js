@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const uri =
-  "mongodb+srv://csci3100:csci3100mhero@cluster0.pkkys.mongodb.net/Mhero?retryWrites=true&w=majority";
+  "mongodb+srv://<user>:<password>@cluster0.pkkys.mongodb.net/Mhero?retryWrites=true&w=majority";
 
 const options = {
   useNewUrlParser: true,
