@@ -1,38 +1,40 @@
 import 'react-native-gesture-handler';
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet, FlatList, Image, TouchableOpacity, Text, View, SafeAreaView, Button } from 'react-native';
+import { StyleSheet, FlatList, Image, TouchableOpacity, Text, View, SafeAreaView} from 'react-native';
+import { responsiveFontSizes } from '@material-ui/core';
+
+const dataEx = [
+  {id: 1, name: "Food", amount: 10},
+  {id: 2, name: "Traffic", amount: 20},
+  {id: 3, name: "Fun", amount: 30},
+  {id: 4, name: "Fuels", amount: 40},
+  {id: 5, name: "Medical", amount: 50},
+  {id: 6, name: "Snacks", amount: 60},
+  {id: 7, name: "Grocery", amount: 70},
+  {id: 8, name: "Clothing", amount: 80},
+  {id: 9, name: "Bill", amount: 90},
+]
+
+  const dataIn = [
+  {id: 1, name: "Food", amount: 900},
+  {id: 2, name: "Traffic", amount: 800},
+  {id: 3, name: "Fun", amount: 700},
+  {id: 4, name: "Fuels", amount: 600},
+  {id: 5, name: "Medical", amount: 500},
+  {id: 6, name: "Snacks", amount: 400},
+  {id: 7, name: "Grocery", amount: 300},
+  {id: 8, name: "Clothing", amount: 200},
+  {id: 9, name: "Bill", amount: 100},
+  ]
+
 
 function BillScreen({navigation}){
-  
+
+  const [ExIn, setExIn] = useState([1]); // 1 for expense; 2 for income
+
   const [currentDate, setCurrentDate] = useState('');
-
-  const data = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'clothing',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'food',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'fun',
-    },
-  ];
-
-  const Item = ({ title, cost }) => (
-    <View style={styles.item}>
-    <Text style={{fontSize: 20}}>{title}</Text>
-    <Text style={{fontSize: 20, textAlign:'right'}}>{cost}</Text>
-    </View>
-  );
-
-  const renderItem = ({ item }) => (
-    <Item title={item.title}/>
-  );
 
   useEffect(() => {
     var month = new Date().getMonth() + 1; //Current Month
@@ -40,246 +42,249 @@ function BillScreen({navigation}){
     setCurrentDate( year + '/' + month );
   }, []);
 
+  function list() {
+    if(ExIn == 1){
+      const renderItem = ({item}) => {
+        return (
+          
+            <View style = {{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style = {{fontSize: 30}}> {item.name}</Text>
+              <Text style = {{fontSize: 30}}> {item.amount} </Text>
+            </View>
+        )
+      }
+        return (
+          <View>
+            <FlatList 
+            data = {dataEx}
+            renderItem={renderItem}
+            keyExtractor = {item => `${item.id}`}/>
+          </View>
+        )
+    }else {
+      const renderItem = ({item}) => {
+        return (
+            <View style = {{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+              <Text style = {{fontSize: 30}}> {item.name}</Text>
+              <Text style = {{fontSize: 30}}> {item.amount} </Text>
+            </View>
+        )
+      }
+        return (
+          <View>
+            <FlatList 
+            data = {dataIn}
+            renderItem={renderItem}
+            keyExtractor = {item => `${item.id}`}/>
+          </View>
+        )
+    }
+  }
+  
+  function result() {
+    const resultEx = dataEx.reduce((total, currentValue) => total = total + currentValue.amount,0);
+    const resultIn = dataIn.reduce((total, currentValue) => total = total + currentValue.amount,0);
+
+    if(ExIn == 1){
+      return (
+        <View style = {styles.Title}>
+          <Text style = {styles.MoneyText}> HK$ </Text>
+          <Text style = {styles.MoneyText}> {resultEx} </Text>
+        </View>
+      )
+    }else {
+      return (
+        <View style = {styles.Title}>
+          <Text style = {styles.MoneyText}> HK$ </Text>
+          <Text style = {styles.MoneyText}> {resultIn} </Text>
+        </View>
+      )
+    }
+    
+  }
+  
   return (
     
-    <View style={styles.container}>
-      <View style={styles.fixToText}>
-        <Text style={styles.title}>{currentDate}</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Add')}>
-            <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/add.png')} />
+    <SafeAreaView style = {styles.container}>
+      <View style = {styles.Title}>
+        <Text style = {styles.TitleText}>  {currentDate}</Text>
+        <TouchableOpacity onPress = {() => navigation.navigate('Add')}>
+          <Text style = {styles.TitleText}>+  </Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.fixToText}>
-          <TouchableOpacity onPress={() => console.log("Expense")}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.ExIn}>     Expense    </Text>
-            </View>
-          </TouchableOpacity>
+      <View style = {styles.ExIn}>
+        <TouchableOpacity onPress = {() => setExIn(prevExIn => 1)}>
+            <Text style = {styles.ExInText}>Expense</Text>
+        </TouchableOpacity>
   
-          <Text style={{fontSize: 35}}>|</Text>
+        <Text style = {styles.ExInText}>|</Text>
   
-          <TouchableOpacity onPress={() => console.log("Income")}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.ExIn}>     Income     </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      
-      <View style={styles.fixToText}>
-      <Image source={require('../assets/pieChart.png')}/>
+        <TouchableOpacity onPress = {() => setExIn(prevExIn => 2)}>
+          <View style = {styles.buttonNumber}>
+            <Text style = {styles.ExInText}>Income</Text>
+          </View>
+        </TouchableOpacity>
       </View>
 
-      <View style={styles.fixTitle}>
-        <Text style={styles.title}>HK$ 0</Text>
+      {/* <View style = {styles.PieChart}>
+      </View> */}
+
+      <View style = {styles.Title}>
+        {result()}
       </View>
-
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-      />
       
-    </View>
-
-    
+      <View style = {styles.List}>
+        {list()}
+       </View> 
+     </SafeAreaView>
   );
 }
 
-function AddBill({navigation}){
-  const [count, setText] = useState(0);
-        return (
-        <SafeAreaView style={styles.container}>
+function Add({navigation}){
+
+  const [resultText, setresultText] = useState([]);
+  const [ExIn, setExIn] = useState([1]); // 1 for expense; 2 for income
+  const [Type, setType] = useState([1]); // 1 for food; 2 for traffic; 3 for fun; 4 for fuel; 5 for medical; 6 for snack; 7 for geocery; 8 for clothing; 9 for bill
+
+  let rows = []
+  let nums = [[1, 2, 3], [4, 5, 6], [7, 8, 9], ['.', 0 ,'D']]
+  for(let i = 0; i < 4; i++){
+    let row = []
+    for(let j = 0; j < 3; j++){
+      if(nums[i][j] != 'D'){
+        row.push(<TouchableOpacity onPress = {() => setresultText([...resultText, nums[i][j]])} style = {styles.NumberButton}>
+        <Text style = {{fontSize: 30}}>{nums[i][j]}</Text>
+        </TouchableOpacity>)
+      }else{
+        row.push(<TouchableOpacity onPress = {() =>  setresultText(prevresultText => '')}
+        style = {styles.NumberButton}>
+        <Text style = {{fontSize: 30}}>{nums[i][j]}</Text>
+       </TouchableOpacity>)
+      }
+    }
+    rows.push(<View style = {styles.NumberRow}>{row}</View>)
+  }
+
+  function save(){
+    const sum
+    if(ExIn == 1){
+      const find = dataEx.find(element => element.id === Type)
+      find.amount
+      
+    }
+    else{
+      const find = dataIn.find(element => element.id === Type)
+      find.amount
+    }
+  }
+
+   return (
+
+    <SafeAreaView style = {styles.container}>
+      <View style = {styles.Title}>
+        <Text style = {styles.MoneyText}> HK$ </Text>
+        <Text style = {styles.MoneyText}> {resultText} </Text>
+      </View>
+
+      <View style = {styles.ExIn}>
+        <TouchableOpacity onPress = {() => setExIn(prevExIn => 1)}>
+          <Text style = {styles.ExInText}>Expense</Text>
+        </TouchableOpacity>
   
-        <View style={styles.fixTitle}>
-          <Text style={styles.title}>HK$ </Text>
-          <Text numberOfLines={1} style={styles.title}>{count}</Text>
-        </View>
+        <Text style = {styles.ExInText}>|</Text>
   
-        <View style={styles.fixToText}>
-          <TouchableOpacity onPress={() => console.log("Expense")}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.ExIn}>     Expense    </Text>
-            </View>
+        <TouchableOpacity onPress = {() => setExIn(prevExIn => 2)}>
+          <Text style = {styles.ExInText}>Income</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style = {styles.Type}>
+        <TouchableOpacity onPress = {() => setType(preType => 1)}>
+            <Image style={styles.Logo}
+              source={require('./assets/food.png')} />
           </TouchableOpacity>
-  
-          <Text style={{fontSize: 35}}>|</Text>
-  
-          <TouchableOpacity onPress={() => console.log("Income")}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.ExIn}>     Income     </Text>
-            </View>
+      
+          <TouchableOpacity onPress = {() => setType(preType => 2)}>
+            <Image style={styles.Logo}
+              source={require('./assets/traffic.png')} />
           </TouchableOpacity>
-        </View>
-  
-        <View style={styles.fixToText}>
-          <TouchableOpacity onPress={() => console.log("food")}>
+      
+          <TouchableOpacity onPress = {() => setType(preType => 3)}>
+            <Image style={styles.Logo}
+             source={require('./assets/fun.png')} />
+          </TouchableOpacity>
+      
+          <TouchableOpacity onPress = {() => setType(preType => 4)}>
+            <Image style={styles.Logo}
+              source={require('./assets/fuel.png')} />
+          </TouchableOpacity>
+      
+          <TouchableOpacity onPress = {() => setType(preType => 5)}>
+            <Image style={styles.Logo}
+              source={require('./assets/medical.png')} />
+          </TouchableOpacity>
+      </View>
+
+      <View style = {styles.Type}>
+        <TouchableOpacity onPress = {() => setType(preType => 6)}>
             <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/food.png')} />
+              style={styles.Logo}
+              source={require('./assets/snack.png')} />
           </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => console.log("traffic")}>
+    
+          <TouchableOpacity onPress = {() => setType(preType => 7)}>
             <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/traffic.png')} />
+              style={styles.Logo}
+              source={require('./assets/grocery.png')} />
           </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => console.log("fun")}>
+    
+          <TouchableOpacity onPress = {() => setType(preType => 8)}>
             <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/fun.png')} />
+              style={styles.Logo}
+              source={require('./assets/clothing.png')} />
           </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => console.log("fuel")}>
+    
+          <TouchableOpacity onPress = {() => setType(preType => 9)}>
             <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/fuel.png')} />
+              style={styles.Logo}
+              source={require('./assets/bill.png')} />
           </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => console.log("medical")}>
-            <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/medical.png')} />
-          </TouchableOpacity>
+            
+          <Image style={styles.Logo} source={require('./assets/blank.png')} />
+      </View>
+
+      <View style = {styles.NumberPad}>
+        <View style = {styles.Numbers}>
+          {rows}
         </View>
+      </View>
+
+      <View style = {styles.Save}>
+        <TouchableOpacity onPress = {() => {save()}}>
+          <Text style = {styles.SaveText}>Save</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
   
-        <View style={styles.fixToText}>
-          <TouchableOpacity onPress={() => console.log("snack")}>
-            <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/snack.png')} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => console.log("grocery")}>
-            <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/grocery.png')} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => console.log("clothing")}>
-            <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/clothing.png')} />
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => console.log("bill")}>
-            <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/bill.png')} />
-          </TouchableOpacity>
-          
-          <Image 
-            style={styles.tinyLogo}
-            source={require('../assets/blank.png')} />
-        </View>
-        
-        <View style={styles.fixToText}>
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10 + 1)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>   1   </Text>
-            </View>
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10 + 2)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>   2   </Text>
-            </View>
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10 + 3)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>   3   </Text>
-            </View>
-          </TouchableOpacity>
-  
-        </View>
-  
-        <View style={styles.fixToText}>
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10 + 4)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>   4   </Text>
-            </View>
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10 + 5)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>   5   </Text>
-            </View>
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10 + 6)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>   6   </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-  
-        <View style={styles.fixToText}>
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10 + 7)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>   7   </Text>
-            </View>
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10 + 8)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>   8   </Text>
-            </View>
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10 + 9)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>   9   </Text>
-            </View>
-          </TouchableOpacity>
-  
-        </View>
-  
-        <View style={styles.fix}>
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount + '.')}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>  .  </Text>
-            </View>
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => setText(prevCount => prevCount * 10)}>
-            <View style={styles.buttonNumber}>
-              <Text style={styles.number}>  0  </Text>
-            </View>
-          </TouchableOpacity>
-  
-          <TouchableOpacity onPress={() => setText(prevCount => 0)}>
-          <Image style={styles.tinyLogo} source={require('../assets/back.png')}/>
-          </TouchableOpacity>
-  
-        </View>
-  
-        <View>
-          <Button title="Save" onPress={() => console.log("save")}/>
-        </View>
-        
-      </SafeAreaView>
-      );
 }
 
 const Stack = createStackNavigator();
 
-class AddBilScreen extends React.Component {
-  render(){
-    return (
+export default function App() {
+    
+  return(
+    <NavigationContainer>
+
       <Stack.Navigator initialRouteName="Bill">
         <Stack.Screen name="Bill" component={BillScreen}/>
-        <Stack.Screen name="Add" component={AddBill}/>
+        <Stack.Screen name="Add" component={Add}/>
       </Stack.Navigator>
       
-    
-    );
-  }
+    </NavigationContainer>
+  );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -287,44 +292,70 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
   },
-  title: {
-    fontSize: 60,
-    fontWeight: 'bold'
-  },
-  fixToText: {
+  Title: {
+    flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    justifyContent: 'space-between'
   },
-  tinyLogo: {
-    width: 80,
-    height: 80,
-  },
-  buttonNumber: {
-    alignItems: "center",
-    padding: 10
-  },
-  number: {
-    fontSize: 50,
-    fontWeight: 'bold'
+  TitleText:{
+    fontSize: 40
   },
   ExIn: {
-    fontSize: 25
-  },
-  fix: {
+    flex: 0.5,
     flexDirection: 'row',
+    justifyContent: 'space-evenly'
+  },
+  ExInText: {
+    fontSize: 30
+  },
+  ExInTextBold: {
+    fontSize: 30,
+    fontWeight: 'bold'
+  },
+  PieChart: {
+    flex: 3,
+    backgroundColor: 'yellow'
+  },
+  List: {
+    flex: 3,
+  },
+  Type: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  Logo: {
+    width: 80,
+    height: 80
+  },
+  NumberPad: {
+    flex: 4,
+    flexDirection: 'row'
+  },
+  Numbers: {
+    flex: 3
+  },
+  NumberRow: {
+    flexDirection: 'row',
+    flex: 1,
     justifyContent: 'space-around',
+    alignItems: 'center'
   },
-  fixTitle: {
-    flexDirection: 'column',
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+  NumberButton: {
+    flex: 2,
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
-  item: {
-    backgroundColor: 'lightyellow',
-    padding: 8,
-    marginVertical: 8,
-    marginHorizontal: 8,
+  Save: {
+    flex: 0.5,
+    alignItems: 'center'
   },
-});
-
-  export default AddBilScreen;
+  SaveText: {
+    fontSize: 20,
+  },
+  MoneyText: {
+    fontSize: 40,
+    fontWeight: 'bold'
+  }
+})

@@ -14,6 +14,11 @@ const expenseSchema = new Schema({
   expenseType: {
     type: String,
   },
+  expenseType_id: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
   description: {
     type: String,
   },
@@ -37,6 +42,11 @@ const incomeSchema = new mongoose.Schema({
   },
   incomeType: {
     type: String,
+  },
+  incomeType_id: {
+    type: Number,
+    required: true,
+    unique: true,
   },
   description: {
     type: String,
