@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const Fish = require("./fish.js");
-const Comment = require("./comment");
+const commentSchema = require("./comment").schema;
+const fishSchema = require("./fish").schema;
+const Schema = mongoose.Schema;
 
-const aquaSchema = new mongoose.Schema({
+const aquaSchema = new Schema({
   aqua_id: {
     type: Number,
     required: true,
@@ -13,12 +14,10 @@ const aquaSchema = new mongoose.Schema({
     required: true,
   },
   fish: {
-    type: Fish,
-    required: true,
-    unique: true,
+    type: fishSchema,
   },
   comment: {
-    type: Comment,
+    type: commentSchema,
     default: () => ({}),
   },
   like: {
@@ -31,4 +30,4 @@ const aquaSchema = new mongoose.Schema({
   },
 });
 
-modules.exports = mongoose.models("Aquarium", aquaSchema);
+module.exports = mongoose.model("Aquarium", aquaSchema);

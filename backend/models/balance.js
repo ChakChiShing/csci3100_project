@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const expenseSchema = new mongoose.Schema({
+const expenseSchema = new Schema({
   expense_id: {
     type: Number,
     required: true,
@@ -58,4 +59,4 @@ const balanceSchema = new mongoose.Schema({
   },
 });
 
-modules.exports = mongoose.models("Balance", balanceSchema);
+module.exports = mongoose.model("Balance", balanceSchema);

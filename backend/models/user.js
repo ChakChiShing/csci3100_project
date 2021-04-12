@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
 var bcrypt = require("bcrypt");
-const Friendlist = require("./friend");
-const Aquarium = require("./aquarium");
-const Balancesheet = require("./balance");
+const friendSchema = require("./friend").schema;
+const aquaSchema = require("./aquarium").schema;
+const balanceSchema = require("./balance").schema;
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   user_id: {
     type: Number,
     required: true,
@@ -30,14 +31,14 @@ const userSchema = new mongoose.Schema({
     required: [true, "password cannot be empty"],
   },
   friendlist: {
-    type: Friendlist,
+    type: friendSchema,
     default: () => ({}),
   },
   aquarium: {
-    type: Aquarium,
+    type: aquaSchema,
   },
   balanceSheet: {
-    type: Balancesheet,
+    type: balanceSchema,
   },
 });
 
