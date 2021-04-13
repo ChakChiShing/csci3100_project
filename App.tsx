@@ -9,7 +9,10 @@ import SettingScreen from "./component/SettingScreen.js";
 import AddBilScreen from "./component/AddBilScreen.js";
 
 //*new added
-
+// ----------------------------------------------------
+// Note:
+// By default the Login Id and Password is "usr" , "paw"
+// 
 import { useEffect } from "react";
 import LoginTabs from "./component/Login/LoginScreen.js";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -20,12 +23,11 @@ import  AuthaContext from "./component/Login/Context.js";
 const AuthStack = createStackNavigator();
 
 //*added til this part*/
+// ----------------------------------------------------
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  //const [isLoading, setIsLoading] = React.useState(true);
-  //const [userToken, setUserToken] = React.useState<null | String>(null);
   const initialLogin = {
     isLoading: true,
     userName: null,
@@ -70,6 +72,14 @@ export default function App() {
       signIn: async(userName, password) => {
         let userToken;
         userToken = null;
+        // ----------------------------------------------------
+        // TODO: Please help
+        // This part needs to be modified
+        // if (userName == 'usr' && password == 'paw')
+        // change to db verification 
+        // => if (username && password) both exist in db
+        // return true else return false
+        // ----------------------------------------------------
         if (userName == 'usr' && password == 'paw') {
           userToken = 'shit';
           try {
@@ -85,6 +95,16 @@ export default function App() {
         //setUserToken("abcde");
         //setIsLoading(false);
       },
+      
+      // ----------------------------------------------------
+      // TODO: Please help
+      // SignOut should be set in setting page
+      // Guide: 
+      // 1. import {AuthaContext} from Login/Context.js
+      // 2. add next line of code "const { signOut } = React.useContext(AuthaContext);"
+      // 3. add function => "const signOutHandle = () => {signOut()}"
+      // 4. create new button in setting screen with onPress event set to call signOutHandle()
+      // ----------------------------------------------------
       signOut: async() => {
         try {
           await AsyncStorage.removeItem("userToken");
@@ -93,6 +113,12 @@ export default function App() {
         }
         dispatch({type:'LOGOUT'});
       },
+      
+      // TODO: Please help
+      // This function will be called at register, 
+      // it returns username and password demanded by the user
+      // insert these two value with proper schema/relation into correct table in the DB
+      
       signUp: (userName, password) => {
         alert("Closed beta period, your sign up will be handled soon.")
         let userToken;
@@ -105,6 +131,10 @@ export default function App() {
     }),
     []
   );
+  
+  // This userEffect will try to login automatically 
+  // with previous saved data after opening the app for 2 seconds
+  
   useEffect(() => {
     setTimeout(async() => {
       let userToken;
@@ -118,10 +148,16 @@ export default function App() {
       dispatch({type: 'REGISTER', token:userToken});
     },2000);
   },[]);
-  // login screen will be shown if the user didn't login/start of the app.
+  
  {
     return (
-      // this part is new
+      
+      // Note:
+      // This part is new
+      // Added AuthaContext for checking loggin
+      // if it is logged it shows the screens
+      // else it directs to login screen
+      
       <AuthaContext.Provider value={authContext}>
         <NavigationContainer>
           { loginState.userToken != null ? (
@@ -155,6 +191,10 @@ export default function App() {
             
           </Tab.Navigator>
           ) :
+          
+          // Note: 
+          // This part below is the login screen
+          
             <AuthStack.Navigator initialRouteName="Login">
               <AuthStack.Screen name="Login" component={LoginHome} />
               <AuthStack.Screen name="Reset" component={Reset} />
