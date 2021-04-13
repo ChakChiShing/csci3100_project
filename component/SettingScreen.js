@@ -52,16 +52,16 @@ class SettingScreen extends React.Component {
     })
   }
 
-  displaydata = (post) => {
+  // displaydata = (post) => {
 
-    if (!post.length){
-      return null;
-    }
+  //   if (!post.length){
+  //     return null;
+  //   }
 
-    post.map( () => (
-      
-    ))
-  }
+  //   post.map( () => (
+
+  //   ))
+  // }
     render(){
 
       const Stack = createStackNavigator();

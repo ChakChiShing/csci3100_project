@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
+import AuthaContext from "./Context.js";
 
 const styles = StyleSheet.create({
   container: {
@@ -71,60 +79,161 @@ const styles = StyleSheet.create({
   },
 });
 
-const ScreenContainer = ({ children }) => (
-  <View style={styles.container}>{children}</View>
-);
-
-{/*You can change onPress event from alert to check login details*/}
-export const LoginHome = ({ navigation }) => (
+export const LoadingSc = ({ navigation }) => (
   <>
-    <View style={styles.header}>
-      <Text style={styles.headerText}>M.Hero</Text>
-    </View>
-    <View style={styles.body}>
-      <Text>LoginID:</Text>
-      <TextInput style={styles.inputBox} placeholder="e.g. ChanDaiMing123" />
-      <Text>Password:</Text>
-      <TextInput
-        style={styles.inputBox}
-        placeholder="your password"
-        secureTextEntry={true}
-      />
-      <Button
-        title="Sign In"
-        style={styles.buttonLogin}
-        onPress={() => alert("Sign In")}
-      />
-      <View style={styles.spacing}></View>
-      <Button
-        title="Forgot Password?"
-        onPress={() => navigation.push("Reset")}
-        style={styles.buttonForgot}
-      />
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator size="large" />
     </View>
   </>
 );
 
-{/*You can change onPress event to something like authorize account...*/}
-export const Reset = ({ navigation }) => (
-  <>
-    <View style={styles.forgotHead}>
-      <Text style={styles.forgotHeaderText}>Clumsy Clumsy but no worries!</Text>
-      <Text style={styles.forgotHeaderText}>
-        Recover your account within minutes
-      </Text>
-    </View>
-    <View style={styles.fogotBody}>
-      <Text>Enter your Login ID:</Text>
-      <TextInput style={styles.inputBox} placeholder="e.g. ChanDaiMing123" />
-      <Text>Register email:</Text>
-      <TextInput style={styles.inputBox} placeholder="e.g. CDM123@mail.com" />
-      <Button
-        title="Enter"
-        onPress={() =>
-          alert("Password recovery email has been sent to your mail box")
-        }
-      />
-    </View>
-  </>
-);
+export const SignUp = ({ navigation }) => {
+  const [username, setUsername] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
+  const { signUp } = React.useContext(AuthaContext);
+  const signUpHandle = (un, pw) => {
+    signUp(un, pw);
+  };
+  return (
+    <>
+      <View>
+        <Text style={{ fontSize: 30, fontWeight: "bold", margin: 4 }}>
+          New to M.Hero?
+        </Text>
+        <Text style={{ fontSize: 12, fontWeight: "bold", margin: 4 }}>
+          Nice to meet you here, sweeties {"\n"}Join us at once!
+        </Text>
+        <Text style={{ fontSize: 18, fontWeight: "bold", margin: 4 }}>
+          LoginID:
+        </Text>
+        <TextInput
+          style={styles.inputBox}
+          placeholder="e.g. ChanDaiMing123"
+          onChangeText={(val) => setUsername(val)}
+        />
+        <Text style={{ fontSize: 18, fontWeight: "bold", margin: 4 }}>
+          Password:
+        </Text>
+        <TextInput
+          style={styles.inputBox}
+          placeholder="your password"
+          secureTextEntry={true}
+          onChangeText={(val) => setPassword(val)}
+        />
+        {/*<Text>ID:{username} PW: {password}</Text>*/}
+        <View style={{ alignItems: "flex-start", margin: 8 }}>
+          <Button
+            title="Sign Up"
+            style={styles.buttonLogin}
+            onPress={() => {
+              signUpHandle(username, password);
+            }}
+          />
+        </View>
+      </View>
+    </>
+  );
+};
+
+{
+  /*You can change onPress event from alert to check login details*/
+}
+export const LoginHome = ({ navigation }) => {
+  const { signIn } = React.useContext(AuthaContext);
+  const [username, setUsername] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
+  const signInHandle = (un, pw) => {
+    signIn(un, pw);
+  };
+  return (
+    <>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>M.Hero</Text>
+      </View>
+
+      <View style={styles.body}>
+        <Text>LoginID:</Text>
+        <TextInput
+          style={styles.inputBox}
+          placeholder="e.g. ChanTaiMing123"
+          onChangeText={(val) => setUsername(val)}
+        />
+
+        <Text>Password:</Text>
+        <TextInput
+          style={styles.inputBox}
+          placeholder="your password"
+          secureTextEntry={true}
+          onChangeText={(val) => setPassword(val)}
+        />
+
+        <Button
+          title="Sign In"
+          style={styles.buttonLogin}
+          onPress={() => {
+            signInHandle(username, password);
+          }}
+        />
+
+        <View style={styles.spacing}></View>
+
+        <Button
+          title="Register"
+          onPress={() => navigation.push("SignUp")}
+          style={styles.buttonForgot}
+        />
+
+        <View style={styles.spacing}></View>
+
+        <Button
+          title="Forgot Password?"
+          onPress={() => navigation.push("Reset")}
+          style={styles.buttonForgot}
+        />
+      </View>
+    </>
+  );
+};
+
+{
+  /*You can change onPress event to something like authorize account...*/
+}
+export const Reset = ({ navigation }) => {
+  const { resetPW } = React.useContext(AuthaContext);
+  const [username, setUsername] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const resetHandle = (un, em) => {
+    resetPW(un, em);
+  };
+  return (
+    <>
+      <View style={styles.forgotHead}>
+        <Text style={styles.forgotHeaderText}>
+          Clumsy Clumsy but no worries!
+        </Text>
+        <Text style={styles.forgotHeaderText}>
+          Recover your account within minutes
+        </Text>
+      </View>
+      <View style={styles.fogotBody}>
+        <Text>Enter your Login ID:</Text>
+        <TextInput 
+        style={styles.inputBox} 
+        placeholder="e.g. ChanDaiMing123"
+        onChangeText={(val) => setUsername(val)} />
+        <Text>Register email:</Text>
+        <TextInput 
+        style={styles.inputBox} 
+        placeholder="e.g. CDM123@mail.com" 
+        onChangeText={(val) => setEmail(val)} 
+        />
+        <Button
+          title="Enter"
+          onPress={() =>
+            resetHandle(username,email)
+          }
+        />
+      </View>
+    </>
+  );
+};

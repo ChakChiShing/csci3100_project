@@ -1,43 +1,49 @@
 const mongoose = require("mongoose");
-const Friendlist = require("./friend.js");
-const Aquarium = require("./aquarium.js");
-const Balancesheet = require("./balance.js");
+var bcrypt = require("bcrypt");
+const Friend = require("./friend");
+const Aquarium = require("./aquarium");
+const Balance = require("./balance");
+const Schema = mongoose.Schema;
 
-const userSchema = new mongoose.Schema({
-  user_id: {
-    type: Number,
-    required: true,
-    unique: true,
+const userSchema = new Schema(
+  {
+    user_id: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    userEmail: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: [true, "Email is already used"],
+      required: [true, "Email address is required"],
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Please fill a valid email address",
+      ],
+    },
+    userName: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: [true, "password cannot be empty"],
+    },
+    friendlist: [{ type: Schema.Types.ObjectId, ref: "Friend" }],
+    aquarium: [{ type: Schema.Types.ObjectId, ref: "Aquarium" }],
+    balanceSheet: [{ type: Schema.Types.ObjectId, ref: "Balance" }],
   },
-  userEmail: {
-    type: String,
-    trim: true,
-    lowercase: true,
-    unique: [true, "Email is already used"],
-    required: [true, "Email address is required"],
-    match: [
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      "Please fill a valid email address",
-    ],
-  },
-  userName: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: [true, "password cannot be empty"],
-  },
-  friendlist: {
-    type: Friendlist,
-    default: () => ({}),
-  },
-  aquarium: {
-    type: Aquarium,
-  },
-  balanceSheet: {
-    type: Balancesheet,
-  },
+  { collection: "user" }
+);
+
+userSchema.pre("save", function (next) {
+  if (this.password) {
+    var salt = bcrypt.genSaltSync(10);
+    this.password = bcrypt.hashSync(this.password, salt);
+  }
+  next();
 });
 
 module.exports = mongoose.model("User", userSchema);
