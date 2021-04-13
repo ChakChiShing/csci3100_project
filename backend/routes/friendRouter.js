@@ -1,29 +1,13 @@
 var express = require("express");
 var router = express.Router();
-const Friend = require("../models/friend");
+var friendlist_controller = require("../controller/friendController");
 
-// Get all routes
-router.get("/", async (req, res) => {
-  const friends = await Friend.find();
-  res.json(friends);
-});
+router.get("/friends", friendlist_controller.listAllFriends);
 
-// Add new friends
-router.post("/new", async (req, res) => {
-  const newFriend = new Friend(req.body);
-  const savedFriend = await newFriend.save();
-  res.json(savedFriend);
-});
+router.post("/friends/create/", friendlist_controller.createNewFriend);
+router.delete("/friends/:id/delete", friendlist_controller.deleteFriend);
+router.post("/friends/:id/update", friendlist_controller.updateFriend);
 
-//confirm new friend
-router.patch("/update/:id", async (req, res) => {
-  const confirm = await Friend.updateOne(
-    { _id: req.params.id },
-    { $set: req.body }
-  );
-  res.json(confirm);
-});
+router.get("/suggestions", friendlist_controller.listAllSuggestions);
 
-router.get("/get/:userName", async (req, res) => {
-  const q = await Friend.find();
-});
+module.exports = router;
