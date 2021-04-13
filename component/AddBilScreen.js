@@ -48,7 +48,7 @@ function BillScreen({navigation}){
         <TouchableOpacity onPress={() => navigation.navigate('Add')}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/add.png')} />
+            source={require('../assets/add.png')} />
         </TouchableOpacity>
       </View>
 
@@ -69,7 +69,7 @@ function BillScreen({navigation}){
         </View>
       
       <View style={styles.fixToText}>
-        <Image source={require('./assets/pieChart.png')}/>
+      <Image source={require('../assets/pieChart.png')}/>
       </View>
 
       <View style={styles.fixTitle}>
@@ -118,31 +118,31 @@ function AddBill({navigation}){
           <TouchableOpacity onPress={() => console.log("food")}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/food.png')} />
+            source={require('../assets/food.png')} />
           </TouchableOpacity>
   
           <TouchableOpacity onPress={() => console.log("traffic")}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/traffic.png')} />
+            source={require('../assets/traffic.png')} />
           </TouchableOpacity>
   
           <TouchableOpacity onPress={() => console.log("fun")}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/fun.png')} />
+            source={require('../assets/fun.png')} />
           </TouchableOpacity>
   
           <TouchableOpacity onPress={() => console.log("fuel")}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/fuel.png')} />
+            source={require('../assets/fuel.png')} />
           </TouchableOpacity>
   
           <TouchableOpacity onPress={() => console.log("medical")}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/medical.png')} />
+            source={require('../assets/medical.png')} />
           </TouchableOpacity>
         </View>
   
@@ -150,30 +150,30 @@ function AddBill({navigation}){
           <TouchableOpacity onPress={() => console.log("snack")}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/snack.png')} />
+            source={require('../assets/snack.png')} />
           </TouchableOpacity>
   
           <TouchableOpacity onPress={() => console.log("grocery")}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/grocery.png')} />
+            source={require('../assets/grocery.png')} />
           </TouchableOpacity>
   
           <TouchableOpacity onPress={() => console.log("clothing")}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/clothing.png')} />
+            source={require('../assets/clothing.png')} />
           </TouchableOpacity>
   
           <TouchableOpacity onPress={() => console.log("bill")}>
             <Image 
             style={styles.tinyLogo}
-            source={require('./assets/bill.png')} />
+            source={require('../assets/bill.png')} />
           </TouchableOpacity>
           
           <Image 
             style={styles.tinyLogo}
-            source={require('./assets/blank.png')} />
+            source={require('../assets/blank.png')} />
         </View>
         
         <View style={styles.fixToText}>
@@ -215,7 +215,6 @@ function AddBill({navigation}){
               <Text style={styles.number}>   6   </Text>
             </View>
           </TouchableOpacity>
-  
         </View>
   
         <View style={styles.fixToText}>
@@ -253,7 +252,7 @@ function AddBill({navigation}){
           </TouchableOpacity>
   
           <TouchableOpacity onPress={() => setText(prevCount => 0)}>
-          <Image style={styles.tinyLogo} source={require('./assets/back.png')} />
+          <Image style={styles.tinyLogo} source={require('../assets/back.png')}/>
           </TouchableOpacity>
   
         </View>
@@ -271,14 +270,12 @@ const Stack = createStackNavigator();
 class AddBilScreen extends React.Component {
   render(){
     return (
-      <NavigationContainer>
-
       <Stack.Navigator initialRouteName="Bill">
         <Stack.Screen name="Bill" component={BillScreen}/>
         <Stack.Screen name="Add" component={AddBill}/>
       </Stack.Navigator>
       
-    </NavigationContainer>
+    
     );
   }
 }

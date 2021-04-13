@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+const currencySchema = new mongoose.Schema({
+  currency_choice: {
+    type: String,
+    default: "HKD",
+  },
+});
+
 const expenseSchema = new mongoose.Schema({
   expense_id: {
     type: Number,
@@ -20,6 +27,11 @@ const expenseSchema = new mongoose.Schema({
     type: Date,
     min: "1901-01-01",
     max: "2099-12-31",
+  },
+  budget: {
+    type: Number,
+    min: 0,
+    max: 999999,
   },
 });
 
@@ -53,6 +65,10 @@ const balanceSchema = new mongoose.Schema({
   },
   aquaName: {
     type: incomeSchema,
+    default: () => ({}),
+  },
+  currency: {
+    type: currencySchema,
     default: () => ({}),
   },
 });

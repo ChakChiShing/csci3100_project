@@ -30,7 +30,6 @@ class HomeScreen extends React.Component {
           RandomNumberY = Math.floor(Math.random() * 500) + 1, 
           fuckingFish.push(     
             <Image source={require('../assets/realfish.png')} style={{height:100, width:150, position:'absolute', left:RandomNumberX, top:RandomNumberY}}/>
-
           )
         }
       }

@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React, {  useState, Component } from 'react';
 import { StyleSheet, Text, View, Button, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BudgetScreen from "./BudgetScreen.js";
 import CurrencyScreen from "./CurrencyScreen.js";
+import axios from 'axios';
 
 
 
 
 function Set( { navigation } ) {
+  const [country, setCount] = useState(global.target)
   return (
     
     <View style={{ flex: 1, justifyContent: 'column', alignContent:'center',}}>
@@ -23,7 +25,6 @@ function Set( { navigation } ) {
       <TouchableOpacity onPress={() => navigation.navigate('Currency')} 
       style={styles.appButtonContainer}>
         <Text style={styles.appButtonText}>Currency </Text>
-        <Text style ={styles.appButtonText}>HKD$</Text>
       </TouchableOpacity>
 
       
@@ -32,6 +33,35 @@ function Set( { navigation } ) {
 }
 
 class SettingScreen extends React.Component {
+  state = {
+    post: []
+  };
+
+  componentDidMount = () => {
+    this.getdata();
+  }
+  getdata = () => {
+    axios.get('')
+    .then(() => {
+      const data = response.data;
+      this.setState({ post: data});
+      console.log("Data has been received.");
+    })
+    .catch(() => {
+      alert("error in receiving data in setting page");
+    })
+  }
+
+  displaydata = (post) => {
+
+    if (!post.length){
+      return null;
+    }
+
+    post.map( () => (
+      
+    ))
+  }
     render(){
 
       const Stack = createStackNavigator();

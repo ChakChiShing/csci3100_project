@@ -1,33 +1,49 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import CurrencyPicker from "react-native-currency-picker"
+import CurrencyPicker from "react-native-currency-picker";
 
 
 
 
 class CurrencyScreen extends React.Component {
-  render(){
+  constructor(props) {
+    super(props);
+    this.state = {
+      target: "hkd",//initially set to false
+    }
+  }
 
+  render(){
+    
     let currencyPickerRef = undefined;
+    global.target = "HKD";
+    var check = 1;
+    if(check = 1){
+
+    }
+
+
+
+
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <CurrencyPicker
   currencyPickerRef={(ref) => {currencyPickerRef = ref}}
   enable={true}
   darkMode={false}
-  currencyCode={"HKD"}
+  currencyCode={global.target}
   showFlag={true}
   showCurrencyName={true}
   showCurrencyCode={true}
-  onSelectCurrency={(data) => { console.log("DATA", data) }}
-  onOpen={() => {console.log("Open")}}
-  onClose={() => {console.log("Close")}}
-  showNativeSymbol={true}
-  showSymbol={false}
+  onSelectCurrency={(data) => {  global.target = data.code, console.log(global.target) }}
+  onOpen={() => {console.log("Open")}} 
+  onClose={() => { console.log("Close")}}
+  showNativeSymbol={false}
+  showSymbol={true}
   containerStyle={{
       container: {},
-      flagWidth: 25,
+      flagWidth: 35,
       currencyCodeStyle: {},
       currencyNameStyle: {},
       symbolStyle: {},
@@ -39,7 +55,7 @@ class CurrencyScreen extends React.Component {
       tileStyle: {},
       itemStyle: {
         itemContainer: {},
-        flagWidth: 25,
+        flagWidth: 35,
         currencyCodeStyle: {},
         currencyNameStyle: {},
         symbolStyle: {},
@@ -48,7 +64,7 @@ class CurrencyScreen extends React.Component {
   }}
   title={"Currency"}
   searchPlaceholder={"Search"}
-  showCloseButton={true}
+  showCloseButton={false}
   showModalTitle={true}
 />
       </View>
