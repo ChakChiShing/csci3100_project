@@ -1,10 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import CurrencyPicker from "react-native-currency-picker";
-
-
-
+import CurrencyPicker from "react-native-currency-picker"; //this is online package for currency picker
 
 class CurrencyScreen extends React.Component {
   constructor(props) {
@@ -13,17 +10,10 @@ class CurrencyScreen extends React.Component {
       target: "hkd",//initially set to false
     }
   }
-
   render(){
-    
     let currencyPickerRef = undefined;
     global.target = "HKD";
     var check = 1;
-    if(check = 1){
-
-    }
-
-
 
 
     return (

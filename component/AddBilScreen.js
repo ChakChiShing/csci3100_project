@@ -167,7 +167,7 @@ function Add({navigation}){
   }
 
   function save(){
-    const sum
+    let sum
     if(ExIn == 1){
       const find = dataEx.find(element => element.id === Type)
       find.amount
@@ -202,27 +202,27 @@ function Add({navigation}){
       <View style = {styles.Type}>
         <TouchableOpacity onPress = {() => setType(preType => 1)}>
             <Image style={styles.Logo}
-              source={require('./assets/food.png')} />
+              source={require('../assets/food.png')} />
           </TouchableOpacity>
       
           <TouchableOpacity onPress = {() => setType(preType => 2)}>
             <Image style={styles.Logo}
-              source={require('./assets/traffic.png')} />
+              source={require('../assets/traffic.png')} />
           </TouchableOpacity>
       
           <TouchableOpacity onPress = {() => setType(preType => 3)}>
             <Image style={styles.Logo}
-             source={require('./assets/fun.png')} />
+             source={require('../assets/fun.png')} />
           </TouchableOpacity>
       
           <TouchableOpacity onPress = {() => setType(preType => 4)}>
             <Image style={styles.Logo}
-              source={require('./assets/fuel.png')} />
+              source={require('../assets/fuel.png')} />
           </TouchableOpacity>
       
           <TouchableOpacity onPress = {() => setType(preType => 5)}>
             <Image style={styles.Logo}
-              source={require('./assets/medical.png')} />
+              source={require('../assets/medical.png')} />
           </TouchableOpacity>
       </View>
 
@@ -230,28 +230,28 @@ function Add({navigation}){
         <TouchableOpacity onPress = {() => setType(preType => 6)}>
             <Image 
               style={styles.Logo}
-              source={require('./assets/snack.png')} />
+              source={require('../assets/snack.png')} />
           </TouchableOpacity>
     
           <TouchableOpacity onPress = {() => setType(preType => 7)}>
             <Image 
               style={styles.Logo}
-              source={require('./assets/grocery.png')} />
+              source={require('../assets/grocery.png')} />
           </TouchableOpacity>
     
           <TouchableOpacity onPress = {() => setType(preType => 8)}>
             <Image 
               style={styles.Logo}
-              source={require('./assets/clothing.png')} />
+              source={require('../assets/clothing.png')} />
           </TouchableOpacity>
     
           <TouchableOpacity onPress = {() => setType(preType => 9)}>
             <Image 
               style={styles.Logo}
-              source={require('./assets/bill.png')} />
+              source={require('../assets/bill.png')} />
           </TouchableOpacity>
             
-          <Image style={styles.Logo} source={require('./assets/blank.png')} />
+          <Image style={styles.Logo} source={require('../assets/blank.png')} />
       </View>
 
       <View style = {styles.NumberPad}>

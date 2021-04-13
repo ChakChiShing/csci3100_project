@@ -31,4 +31,6 @@ const aquaSchema = new mongoose.Schema({
   },
 });
 
-modules.exports = mongoose.models("Aquarium", aquaSchema);
+
+module.exports = mongoose.models("Aquarium", aquaSchema);
+

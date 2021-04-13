@@ -31,6 +31,17 @@ const userSchema = new Schema(
       type: String,
       required: [true, "password cannot be empty"],
     },
+    currency_choice: {
+      type: String,
+      default: "HKD",
+    },
+    budget: {
+      type: Number,
+      min: 0,
+      max: 999999,
+      default: 2000,
+    },
+
     friendlist: [{ type: Schema.Types.ObjectId, ref: "Friend" }],
     aquarium: [{ type: Schema.Types.ObjectId, ref: "Aquarium" }],
     balanceSheet: [{ type: Schema.Types.ObjectId, ref: "Balance" }],

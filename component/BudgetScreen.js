@@ -22,21 +22,16 @@ class BudgetScreen extends React.Component {
       <View style={{ flex: 1, justifyContent: 'center', alignContent:'center', }}>
           <View style = {styles.header}>
           <Text style ={{fontSize:20, marginBottom:5}}>{this.state.currency}{this.state.value}</Text>
-            <TextInput 
-            
+            <TextInput      
             keyboardType='numeric'
             placeholder = "change the value here"
             onChangeText={(val) => this.setState({ value: val})}
             ></TextInput>
           </View>
-
-
           <TouchableOpacity style={styles.appButtonContainer} onPress={this.onPressButton}>
-      <Text style={styles.appButtonText}>Save </Text>
-    </TouchableOpacity>
-          
+            <Text style={styles.appButtonText}>Save </Text>
+          </TouchableOpacity>
       </View>
-      
     );
   }
 }
@@ -56,8 +51,7 @@ class BudgetScreen extends React.Component {
         width : 380,
         height: 80,
         padding: 8,
-        marginBottom:80
-        
+        marginBottom:80       
     },
     appButtonContainer: {
       elevation: 8,
@@ -65,8 +59,6 @@ class BudgetScreen extends React.Component {
       borderRadius: 10,
       paddingVertical: 10,
       paddingHorizontal: 12,
-      
-      
       justifyContent: 'center',
       alignItems: 'center',
       alignContent: 'center'

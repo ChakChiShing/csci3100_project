@@ -1,9 +1,11 @@
 var express = require("express");
 var router = express.Router();
-const User = require("../models/users");
+var setting_controller = require("../controller/SettingController");
 
-// Get all routes
-router.get("/:id", async (req, res) => {
-  const user = await User.find();
-  res.json(user);
-});
+router.get("/setting/budget", setting_controller.listBudget);
+router.get("/setting/currency", setting_controller.listCurrency);
+
+router.post("/setting/budget/create", setting_controller.SetNewBudget);
+router.post("/setting/currency/create", setting_controller.ChooseNewCurrency);
+
+module.exports = router;

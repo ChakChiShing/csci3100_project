@@ -1,30 +1,34 @@
-import React, {  useState, Component } from 'react';
+import React, {  useState, Component, useContext } from 'react';
 import { StyleSheet, Text, View, Button, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BudgetScreen from "./BudgetScreen.js";
 import CurrencyScreen from "./CurrencyScreen.js";
-import axios from 'axios';
-
-
+import AuthaContext from "./Login/Context.js";
+//import axios from 'axios';
 
 
 function Set( { navigation } ) {
-  const [country, setCount] = useState(global.target)
+  const [country, setCount] = React.useState(global.target);
+  const {signOut} = React.useContext(AuthaContext);
   return (
+    <View style={{ flex: 1, justifyContent: 'flex-start', alignContent:'center',}}>
     
-    <View style={{ flex: 1, justifyContent: 'column', alignContent:'center',}}>
-    
-      
+      {/* navigate to budget screen */}
       <TouchableOpacity onPress={() => navigation.navigate('Budget')} 
       style={styles.appButtonContainer}>
         <Text style={styles.appButtonText}>Budget </Text>   
-        <Text style ={styles.appButtonText}> $2000</Text>
+        
       </TouchableOpacity>
 
-
+      {/* navigate to currency  screen */}
       <TouchableOpacity onPress={() => navigation.navigate('Currency')} 
       style={styles.appButtonContainer}>
         <Text style={styles.appButtonText}>Currency </Text>
+      </TouchableOpacity>
+
+      {/* navigate to login page when sign out */}
+      <TouchableOpacity onPress={() => signOut()} style={styles.appButtonContainer}>
+        <Text style={styles.appButtonText}>Sign Out </Text>  
       </TouchableOpacity>
 
       
@@ -33,24 +37,24 @@ function Set( { navigation } ) {
 }
 
 class SettingScreen extends React.Component {
-  state = {
-    post: []
-  };
+  // state = {
+  //   post: []
+  // };
 
-  componentDidMount = () => {
-    this.getdata();
-  }
-  getdata = () => {
-    axios.get('')
-    .then(() => {
-      const data = response.data;
-      this.setState({ post: data});
-      console.log("Data has been received.");
-    })
-    .catch(() => {
-      alert("error in receiving data in setting page");
-    })
-  }
+  // componentDidMount = () => {
+  //   this.getdata();
+  // }
+  // getdata = () => {
+  //   axios.get('')
+  //   .then(() => {
+  //     const data = response.data;
+  //     this.setState({ post: data});
+  //     console.log("Data has been received.");
+  //   })
+  //   .catch(() => {
+  //     alert("error in receiving data in setting page");
+  //   })
+  // }
 
   // displaydata = (post) => {
 
@@ -63,7 +67,7 @@ class SettingScreen extends React.Component {
   //   ))
   // }
     render(){
-
+      // have a stack screen component to navigate to budget and setting screen
       const Stack = createStackNavigator();
       return (
         <Stack.Navigator initialRouteName="Set">

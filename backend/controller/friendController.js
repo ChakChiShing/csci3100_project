@@ -33,14 +33,12 @@ exports.deleteFriend = async (req, res) => {
   });
 };
 
-exports.createNewFriend = (req, res) => {
-  let newFriend = new Friend(req.body);
-  newFriend.save((err, friend) => {
-    if (err) {
-      res.status(500).send(err);
-    }
-    res.status(201).json(friend);
-  });
+exports.UpdateBudget = (req, res) => {
+  User.save()
+};
+
+exports.UpdateCurrency = (req, res) => {
+  User.save()
 };
 
 exports.listAllSuggestions = (req, res) => {
