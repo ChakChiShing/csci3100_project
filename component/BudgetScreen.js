@@ -7,15 +7,17 @@ class BudgetScreen extends React.Component {
         super(props);
         this.state = {
           value: "2000",
-          currency: 'HKD$'
+          currency: 'HKD$',
+          click: false,
         };
+        this.onPressButton = this.onPressButton.bind(this);  
       }
 
-      _onPressButton(value) {
-        console.log(value);
+      onPressButton() {
+        this.setState({click: true})
+        console.log(this.state.value);
       }
   render(){
-
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignContent:'center', }}>
           <View style = {styles.header}>
@@ -29,7 +31,7 @@ class BudgetScreen extends React.Component {
           </View>
 
 
-          <TouchableOpacity style={styles.appButtonContainer} onPress={this._onPressButton}>
+          <TouchableOpacity style={styles.appButtonContainer} onPress={this.onPressButton}>
       <Text style={styles.appButtonText}>Save </Text>
     </TouchableOpacity>
           

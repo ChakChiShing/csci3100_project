@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-
-const fishSchema = new Schema({
+const fishSchema = new mongoose.Schema({
   fish_id: {
     type: Number,
     required: true,
