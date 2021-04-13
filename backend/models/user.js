@@ -7,11 +7,6 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    user_id: {
-      type: Number,
-      required: true,
-      unique: true,
-    },
     userEmail: {
       type: String,
       trim: true,
@@ -25,10 +20,12 @@ const userSchema = new Schema(
     },
     userName: {
       type: String,
+      maxlength: 30,
       required: true,
     },
     password: {
       type: String,
+      minlength: 6,
       required: [true, "password cannot be empty"],
     },
     friendlist: [

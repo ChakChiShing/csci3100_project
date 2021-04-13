@@ -54,31 +54,36 @@ exports.listAllSuggestions = (req, res) => {
 };
 
 exports.getFriends = async (req, res) => {
-  let { id } = req.params;
+  let { id } = req.params.id;
   let user = await User.aggregate([
-    { $match: { _id: ObjectId(id) } },
+    { $match: { _id: new ObjectId(id) } },
     {
       $lookup: {
-        from: User.collection.name,
-        let: { friends: "$friends" },
+        from: "user",
+        let: { friendlist: "$friendlist" },
         pipeline: [
           {
             $match: {
-              "friends.status": 2,
+              "friendlist.status": 4,
             },
           },
           {
             $project: {
-              userName: 1,
-              email: 1,
+              user: 1,
+              //userName: 1,
+              //email: 1,
               //"avatar": 1
             },
           },
         ],
-        as: "friends",
+        as: "friendlist",
       },
     },
-  ]);
-
-  res.json({ user });
+  ])
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      res.send(error);
+    });
 };
