@@ -1,5 +1,6 @@
 var Friend = require("../models/friend");
 var User = require("../models/user");
+var ObjectId = require("mongodb").ObjectID;
 
 exports.listAllFriends = (req, res) => {
   Friend.find({}, (err, friend) => {
@@ -48,4 +49,34 @@ exports.listAllSuggestions = (req, res) => {
     }
     res.status(200).send(friend);
   });
+};
+
+exports.getFriends = async (req, res) => {
+  let { id } = req.params;
+  let user = await User.aggregate([
+    { $match: { _id: ObjectId(id) } },
+    {
+      $lookup: {
+        from: User.collection.name,
+        let: { friends: "$friends" },
+        pipeline: [
+          {
+            $match: {
+              "friends.status": 2,
+            },
+          },
+          {
+            $project: {
+              userName: 1,
+              email: 1,
+              //"avatar": 1
+            },
+          },
+        ],
+        as: "friends",
+      },
+    },
+  ]);
+
+  res.json({ user });
 };

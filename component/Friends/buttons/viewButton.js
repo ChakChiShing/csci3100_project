@@ -13,5 +13,5 @@ export default class viewButton extends React.Component {
         onPress={() => console.log("viewing")}
       />
     );
-  }
+  } 
 }
