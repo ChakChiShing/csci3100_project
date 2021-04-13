@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var friendlist_controller = require("../controller/friendController");
 
-router.get("/friends", friendlist_controller.listAllFriends);
+router.get("/friends", friendlist_controller.getFriends);
 
 router.post("/friends/create/", friendlist_controller.createNewFriend);
 router.delete("/friends/:id/delete", friendlist_controller.deleteFriend);

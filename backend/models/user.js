@@ -31,7 +31,23 @@ const userSchema = new Schema(
       type: String,
       required: [true, "password cannot be empty"],
     },
-    friendlist: [{ type: Schema.Types.ObjectId, ref: "Friend" }],
+    friendlist: [
+      {
+        user: {
+          type: Schema.Types.ObjectId,
+          ref: "users",
+        },
+        status: {
+          type: Number,
+          enums: [
+            0, //'add friend',
+            1, //'requested',
+            2, //'pending',
+            3, //'friends'
+          ],
+        },
+      },
+    ],
     aquarium: [{ type: Schema.Types.ObjectId, ref: "Aquarium" }],
     balanceSheet: [{ type: Schema.Types.ObjectId, ref: "Balance" }],
   },
