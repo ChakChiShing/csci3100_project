@@ -1,5 +1,7 @@
-# Message:  
-Uploaded new login/password recovery .js  
+# Message: 
+[new] updated app.tsx  
+[new] added new package asyncStorage  
+[old] Uploaded new login/password recovery .js  
 
 
 # TODO:
