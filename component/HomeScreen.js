@@ -23,7 +23,7 @@ class HomeScreen extends React.Component {
   }
   // funciton to add like
   Addlikenum = (likenum) =>{
-    likenum +=1
+    this.likenum +=1
   }
     render(){
       const isClick = this.state.showFish;
