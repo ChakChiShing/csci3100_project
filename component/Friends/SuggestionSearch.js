@@ -5,6 +5,7 @@ import { Avatar } from "react-native-elements/dist/avatar/Avatar";
 import closeButton from "./buttons/closeButton";
 import checkmarkButton from "./buttons/checkmarkButton";
 
+//similar to friendsearch.js, but using 3rd party api to testing
 export default class Suggestionlist extends Component {
   constructor(props) {
     super(props);

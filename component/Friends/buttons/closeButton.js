@@ -1,6 +1,7 @@
 import React from "react";
 import { Icon } from "react-native-elements";
 
+// this is a reusable class for a cross button, pressing it for declining the friend request/suggestion
 export default class viewButton extends React.Component {
   render() {
     return (
@@ -10,7 +11,7 @@ export default class viewButton extends React.Component {
         type="ionicon"
         color="#f50"
         size={15}
-        onPress={() => console.log("viewing")}
+        onPress={() => console.log("declining")}
       />
     );
   }

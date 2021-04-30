@@ -7,14 +7,17 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import FriendList from "./FriendListScreen";
 import Suggestions from "./SuggestionScreen";
 
-const Tab = createMaterialTopTabNavigator();
+// create a top bar navigation screen for switching between friendlist and friend suggestion
+//reference: https://reactnavigation.org/docs/material-top-tab-navigator/
 
+const Tab = createMaterialTopTabNavigator();
 export default function MyTabs() {
   return (
     <SafeAreaProvider mode="margin" style={{ flex: 1 }}>
       <Tab.Navigator
-        initialRouteName="FriendList"
+        initialRouteName="FriendList" // initialize the screen when tabbing into friend tab on the bottom
         tabBarOptions={{
+          //props for setting style, appearance of tabbar
           labelStyle: { fontSize: 12 },
           //tabStyle: { width: 100 },
           showIcon: true,
@@ -23,7 +26,7 @@ export default function MyTabs() {
           showIcon: true,
         }}
       >
-        <Tab.Screen
+        <Tab.Screen //setting for the two navigation screens: Friendlist and Suggestions, & icon of the tabs
           name="Friend List"
           component={FriendList}
           options={{

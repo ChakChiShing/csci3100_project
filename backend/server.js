@@ -1,5 +1,5 @@
 const express = require("express");
- require("./config/database");
+require("./config/database");
 //const bodyParser = require("body-parser");
 var friendRouter = require("./routes/friendRouter");
 
@@ -11,6 +11,8 @@ const port = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// this part is for the application to do routing in the backend side of the server
+// when "users" route is requested it further divides into smaller parts with given input
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const userRouter = require("./routes/userRouter");

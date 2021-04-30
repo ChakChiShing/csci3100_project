@@ -7,7 +7,7 @@ import viewButton from "./buttons/viewButton";
 export default class Friendlist extends Component {
   constructor(props) {
     super(props);
-
+    // initialize fetching state, an empty data array, error status
     this.state = {
       loading: false,
       data: [],
@@ -20,16 +20,17 @@ export default class Friendlist extends Component {
   componentDidMount() {
     this.makeRemoteRequest();
   }
-
+  // fetching data from backend api using fetchAPI, reference: class component of https://reactnative.dev/docs/network
   makeRemoteRequest = () => {
     const getCurrentUser = 1;
-    const url = `https://localhost/3000/friends/` + getCurrentUser;
+    const url = `https://localhost/3000/friends/` + getCurrentUser; //url testing from backend
     this.setState({ loading: true });
 
     fetch(url)
-      .then((res) => res.json())
+      .then((res) => res.json()) //json parsing
       .then((res) => {
         this.setState({
+          //putting response data into array with error logging
           data: res,
           error: res.error || null,
           loading: false,
@@ -42,6 +43,7 @@ export default class Friendlist extends Component {
   };
 
   renderSeparator = () => {
+    // an separator component for separating each friend
     return (
       <View
         style={{
@@ -53,17 +55,18 @@ export default class Friendlist extends Component {
       />
     );
   };
-
+  //an search filtering function by searching name of the friend in the search bar, which it will filter the data in the arrayholer,
   searchFilterFunction = (text) => {
     this.setState({
       value: text,
     });
 
     const newData = this.arrayholder.filter((item) => {
+      //filter the data in the arrayholer, which stores all the response data
       const itemData = `${item.account_name}`;
       const textData = text;
 
-      return itemData.indexOf(textData) > -1;
+      return itemData.indexOf(textData) > -1; //return all the account name which matches textData, which is the text user input.
     });
     this.setState({
       data: newData,
@@ -71,8 +74,9 @@ export default class Friendlist extends Component {
   };
 
   renderHeader = () => {
+    //Setting the search bar as header for this searching screen
     return (
-      <SearchBar
+      <SearchBar //search bar with searchFilterFunction as a hot loading alike search bar
         placeholder="Type Here..."
         lightTheme
         round
@@ -84,6 +88,7 @@ export default class Friendlist extends Component {
   };
 
   render() {
+    //render a activity indicator for loading state is true, i.e. a loading circle, https://reactnative.dev/docs/activityindicator
     if (this.state.loading) {
       return (
         <View
@@ -93,11 +98,15 @@ export default class Friendlist extends Component {
         </View>
       );
     }
+
     return (
+      //render the full friendlist
       <View style={{ flex: 1 }}>
-        <FlatList
+        <FlatList //render friendlist using flatlist, https://reactnative.dev/docs/flatlist
           data={this.state.data}
           renderItem={({ item }) => (
+            //configure layout/data to display inside each item by ListItem, https://reactnativeelements.com/docs/listitem/
+            // display account name,  for each item, and button to view aquarium of each friend
             <ListItem bottomDivider>
               <ListItem.Content>
                 <ListItem.Title>{`${item.account_name}`}</ListItem.Title>
@@ -109,7 +118,7 @@ export default class Friendlist extends Component {
             </ListItem>
           )}
           ItemSeparatorComponent={this.renderSeparator}
-          ListHeaderComponent={this.renderHeader}
+          ListHeaderComponent={this.renderHeader} //render search bar as the header
         />
       </View>
     );

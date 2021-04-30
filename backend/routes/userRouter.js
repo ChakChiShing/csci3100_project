@@ -1,7 +1,11 @@
+// this is the userRouter.js file
+// this part is resonsible for calling connection to DB to extract demanded data
+
 const express = require("express");
 const router = express.Router();
 var mariadb = require("mariadb");
 
+// the const pool is the connector to the mariaDB with pre-set login details
 const pool = mariadb.createPool({
   host: "119.236.61.138",
   user: "admindb",
@@ -9,6 +13,7 @@ const pool = mariadb.createPool({
   database: "nodejs",
 });
 
+// default input showing all userID in the mariaDB
 router.get("/", async (req, res) => {
     let conn;
     try {
@@ -21,7 +26,10 @@ router.get("/", async (req, res) => {
     }
 });
 
-  
+// when users input login ID and pw create query to find in the mariaDB to check 
+// whether the demanded ID and PW exists or not return 1 if true else return 0
+// login process will depends on this part to check whether the users give
+// valid login details
 router.get("/:id/:pw",async (req, res) => {
     let conn;
     try {
@@ -43,6 +51,9 @@ router.get("/:id/:pw",async (req, res) => {
     }
 });
 
+// this part is for register process
+// if demanded ID and PW doesn't exist in the DB
+// create new entry with specified details and return it to the users
 router.get("/reg") , async (req,res) => {
     let conn;
     console.log("this is reg");

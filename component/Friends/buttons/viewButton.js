@@ -1,6 +1,7 @@
 import React from "react";
 import { Icon } from "react-native-elements";
 
+// this is a reusable class for a checkmark button, pressing it for viewing aquarium
 export default class viewButton extends React.Component {
   render() {
     return (
@@ -13,5 +14,5 @@ export default class viewButton extends React.Component {
         onPress={() => console.log("viewing")}
       />
     );
-  } 
+  }
 }
