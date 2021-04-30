@@ -21,12 +21,9 @@ class HomeScreen extends React.Component {
     this.state.counter =this.state.counter //refresh counter
     
   }
-  Addfishauto = (numb) =>{
-    if (numb == 0){
-      this.state.counter =this.state.counter+1;
-      
-      numb =1
-    }
+  // funciton to add like
+  Addlikenum = (likenum) =>{
+    likenum +=1
   }
     render(){
       const isClick = this.state.showFish;
