@@ -3,7 +3,10 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import CurrencyPicker from "react-native-currency-picker"; //this is online package for currency picker
 
+//finished by CHAK CHI SHING
 class CurrencyScreen extends React.Component {
+  //here all the setting import from react-native-currency-picker
+
   constructor(props) {
     super(props);
     this.state = {

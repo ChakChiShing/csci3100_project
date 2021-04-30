@@ -1,0 +1,67 @@
+Connect to mysql/mariadb guide:
+
+	Connection with terminal:
+
+	1. 	Download mariadb client/dependencies 
+		link: https://mariadb.org/download/
+		Server version: MariaDB Server 10.5.9
+		OS: Windows
+		Architecture: x86_64
+		Package Type: MSI Package
+		
+	2. 	Finish install steps
+		During installation it will ask for some input
+		Root user is just for your own
+		You can set it to anything no worry
+		
+	3. 	After installation
+		Navigate to the disk that you installed all your files
+		For example: C:\Program Files\MariaDB 10.5
+		Get into file "bin"
+		Copy the path, in this example: C:\Program Files\MariaDB 10.5\bin
+		
+	4.  Right click on This PC icon, choose properties, then advanced system setting
+		Advanced tab => Environmental Variables => column "Path" => Edit => New
+		Paste the path you copied in step 3 into the list
+		Apply and OK
+		
+	5. 	Open your terminal, in Windows => CMD
+		type following line:
+		>> mysql -u admindb -p -h 119.236.61.138
+		it will ask for password Enter password:
+		>> Pa$$w0rd
+		
+	6. 	After loggin in, enter as follow:
+		>> USE nodejs
+		
+	7.  Tayda DONE, free to create table and insert data
+
+
+	Connection in nodejs via VSC:
+	
+	1. 	>> npm install mariadb --save
+	
+	2. 	Copy and paste the following code:
+	
+		//-----------------------------------//
+		const mariadb = require("mariadb");
+
+		const pool = mariadb.createPool({
+		  host: '119.236.61.138',
+		  user: 'admindb',
+		  password: 'Pa$$w0rd',
+		  database: 'nodejs'
+		})
+		//-----------------------------------//
+		
+	3. 	How to use:
+		// this variable is the connection variable
+		try {
+			let conn = await pool.getConnection();
+			var sql = "********"; // <<----- this is the string statement for the query
+			let result = await conn.query(sql); // <--- this is the result return from the DB
+			//  then you can do some JSON/string parsing with the result to fit your demanded output//
+		} catch(e) {
+		
+			//balabalabalabala//
+		}

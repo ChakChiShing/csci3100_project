@@ -2,7 +2,9 @@ import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TextInput,useState, TouchableOpacity } from 'react-native';
 
+//finished by CHAK CHI SHING
 class BudgetScreen extends React.Component {
+  //create constructor to setState
     constructor(props) {
         super(props);
         this.state = {
@@ -16,12 +18,20 @@ class BudgetScreen extends React.Component {
       onPressButton() {
         this.setState({click: true})
         console.log(this.state.value);
+        this.setState({value: this.state.value})
       }
   render(){
+    //these variable is to check the budget is set or not.
+    var budget =0;
+      budget = 2000;
+    const check = this.state.click;
+    if(check){
+      budget = this.state.value;
+    }
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignContent:'center', }}>
           <View style = {styles.header}>
-          <Text style ={{fontSize:20, marginBottom:5}}>{this.state.currency}{this.state.value}</Text>
+          <Text style ={{fontSize:20, marginBottom:5}}>{this.state.currency}{budget}</Text>
             <TextInput      
             keyboardType='numeric'
             placeholder = "change the value here"

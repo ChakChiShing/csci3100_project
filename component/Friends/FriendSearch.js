@@ -22,18 +22,19 @@ export default class Friendlist extends Component {
   }
 
   makeRemoteRequest = () => {
-    const url = `https://randomuser.me/api/?&results=20`;
+    const getCurrentUser = 1;
+    const url = `https://localhost/3000/friends/` + getCurrentUser;
     this.setState({ loading: true });
 
     fetch(url)
       .then((res) => res.json())
       .then((res) => {
         this.setState({
-          data: res.results,
+          data: res,
           error: res.error || null,
           loading: false,
         });
-        this.arrayholder = res.results;
+        this.arrayholder = res;
       })
       .catch((error) => {
         this.setState({ error, loading: false });
@@ -59,8 +60,8 @@ export default class Friendlist extends Component {
     });
 
     const newData = this.arrayholder.filter((item) => {
-      const itemData = `${item.name.title.toUpperCase()} ${item.name.first.toUpperCase()} ${item.name.last.toUpperCase()}`;
-      const textData = text.toUpperCase();
+      const itemData = `${item.account_name}`;
+      const textData = text;
 
       return itemData.indexOf(textData) > -1;
     });
@@ -98,9 +99,8 @@ export default class Friendlist extends Component {
           data={this.state.data}
           renderItem={({ item }) => (
             <ListItem bottomDivider>
-              <Avatar source={{ uri: item.picture.thumbnail }} />
               <ListItem.Content>
-                <ListItem.Title>{`${item.name.first} ${item.name.last}`}</ListItem.Title>
+                <ListItem.Title>{`${item.account_name}`}</ListItem.Title>
               </ListItem.Content>
               <ListItem.ButtonGroup
                 buttons={[{ element: viewButton }]}
@@ -108,7 +108,6 @@ export default class Friendlist extends Component {
               ></ListItem.ButtonGroup>
             </ListItem>
           )}
-          keyExtractor={(item) => item.login.username}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={this.renderHeader}
         />

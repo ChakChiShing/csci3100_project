@@ -4,9 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import BudgetScreen from "./BudgetScreen.js";
 import CurrencyScreen from "./CurrencyScreen.js";
 import AuthaContext from "./Login/Context.js";
-//import axios from 'axios';
 
 
+//finished by CHAK CHI SHING
 function Set( { navigation } ) {
   const [country, setCount] = React.useState(global.target);
   const {signOut} = React.useContext(AuthaContext);
@@ -16,8 +16,7 @@ function Set( { navigation } ) {
       {/* navigate to budget screen */}
       <TouchableOpacity onPress={() => navigation.navigate('Budget')} 
       style={styles.appButtonContainer}>
-        <Text style={styles.appButtonText}>Budget </Text>   
-        
+        <Text style={styles.appButtonText}>Budget </Text>
       </TouchableOpacity>
 
       {/* navigate to currency  screen */}
@@ -30,42 +29,12 @@ function Set( { navigation } ) {
       <TouchableOpacity onPress={() => signOut()} style={styles.appButtonContainer}>
         <Text style={styles.appButtonText}>Sign Out </Text>  
       </TouchableOpacity>
-
-      
       </View>
   );
 }
 
+// this is for naviation  using stack
 class SettingScreen extends React.Component {
-  // state = {
-  //   post: []
-  // };
-
-  // componentDidMount = () => {
-  //   this.getdata();
-  // }
-  // getdata = () => {
-  //   axios.get('')
-  //   .then(() => {
-  //     const data = response.data;
-  //     this.setState({ post: data});
-  //     console.log("Data has been received.");
-  //   })
-  //   .catch(() => {
-  //     alert("error in receiving data in setting page");
-  //   })
-  // }
-
-  // displaydata = (post) => {
-
-  //   if (!post.length){
-  //     return null;
-  //   }
-
-  //   post.map( () => (
-
-  //   ))
-  // }
     render(){
       // have a stack screen component to navigate to budget and setting screen
       const Stack = createStackNavigator();
