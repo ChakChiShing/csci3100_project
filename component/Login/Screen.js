@@ -1,3 +1,5 @@
+// this file holds all screen for login components
+
 import React from "react";
 import {
   View,
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
   },
 });
 
+// loading screen
 export const LoadingSc = ({ navigation }) => (
   <>
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -87,6 +90,11 @@ export const LoadingSc = ({ navigation }) => (
   </>
 );
 
+// sign up screen
+// consisits of three part
+// top: title
+// middle: input text box for acc and pw
+// buttons
 export const SignUp = ({ navigation }) => {
   const [username, setUsername] = React.useState(null);
   const [password, setPassword] = React.useState(null);
@@ -138,6 +146,10 @@ export const SignUp = ({ navigation }) => {
 {
   /*You can change onPress event from alert to check login details*/
 }
+// this part is for login
+// top: title
+// middle: input text box for acc and pw
+// down: buttons
 export const LoginHome = ({ navigation }) => {
   const { signIn } = React.useContext(AuthaContext);
   const [username, setUsername] = React.useState(null);
@@ -198,6 +210,7 @@ export const LoginHome = ({ navigation }) => {
 {
   /*You can change onPress event to something like authorize account...*/
 }
+// this part is the password recovery
 export const Reset = ({ navigation }) => {
   const { resetPW } = React.useContext(AuthaContext);
   const [username, setUsername] = React.useState(null);

@@ -5,15 +5,18 @@ import {LoginHome, Reset, SignUp} from "./Screen.js";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import {AuthContext} from '.Context.js';
 const AuthStack = createStackNavigator();
-const {signIn} = React.useContext(AuthContext);
+//const {signIn} = React.useContext(AuthContext);
 export default class LoginTabs extends React.Component {
-    //const {signIn} = React.useContext();
     render(){
         return(
             <SafeAreaProvider mode="margin" style={{ flex: 1 }}>
                 <AuthStack.Navigator
                 initialRouteName = 'Login'
                 >
+				{/*/ here lying 3 screens component
+				// 1. login -> for handling user login
+				// 2. reset -> for password recovery
+				// 3. signup -> for new acc register*/}
                     <AuthStack.Screen name ='Login' component = {LoginHome}/>
                     <AuthStack.Screen name ='Reset' component = {Reset}/>
                     <AuthStack.Screen name ='SignUp' component = {SignUp}/>
